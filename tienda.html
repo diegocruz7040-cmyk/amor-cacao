@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Amor & Cacao — Haute Chocolaterie & Atelier de Pastelería Fina</title>
+  <meta name="description" content="Donde el amor se vuelve chocolate. Creaciones artesanales bean-to-bar, bombones pintados a mano y repostería de autor con cacao peruano de origen único.">
+  <link rel="icon" type="image/jpeg" href="assets/logo.jpg">
+
+  <!-- Tipografía Editorial & Display de Lujo -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Hoja de Estilos de la Tienda de Lujo -->
+  <link rel="stylesheet" href="css/storefront.css">
+</head>
+<body>
+
+  <!-- =========================================================================
+       BARRA FLOTANTE DE ADMINISTRACIÓN (SOLO VISIBLE EN MODO EDITOR VISUAL)
+       Se activa exclusivamente desde el Módulo de Administración de la plataforma
+       ========================================================================= -->
+  <div id="adminEditorBar" class="admin-editor-bar" style="display: none;" role="toolbar" aria-label="Editor Visual de Tienda">
+    <div class="admin-bar-left">
+      <span class="admin-pulse-dot" aria-hidden="true"></span>
+      <span class="admin-bar-title">MODO EDITOR VISUAL ACTIVO · ATELIER TACNA</span>
+      <span class="admin-bar-pill">Sesión Admin</span>
+    </div>
+    <div class="admin-bar-center">
+      <span class="admin-bar-hint">✏️ Haz clic directo en los textos resaltados para escribir y personalizar</span>
+    </div>
+    <div class="admin-bar-actions">
+      <button type="button" class="btn-editor-action active" id="btnToggleStudioPanel" title="Abrir / Cerrar Panel de Herramientas (Tipografía, Fotos, Colores)">
+        <span>🎛️ Herramientas Studio</span>
+      </button>
+      <button type="button" class="btn-editor-action" id="btnEditorUndo" title="Deshacer último cambio (Ctrl+Z)">
+        <span>↶ Deshacer</span>
+      </button>
+      <button type="button" class="btn-editor-action" id="btnEditorPreviewToggle" title="Ocultar bordes de edición y probar interacciones">
+        <span>👁️ Vista Previa</span>
+      </button>
+      <button type="button" class="btn-editor-action" id="btnEditorDiscard" title="Descartar cambios no guardados">
+        <span>↺ Descartar</span>
+      </button>
+      <button type="button" class="btn-editor-publish" id="btnEditorPublish" title="Guardar y publicar en vivo">
+        <span>💾 Publicar Cambios</span>
+      </button>
+      <button type="button" class="btn-editor-exit" id="btnEditorExit" title="Cerrar editor y ver tienda pública limpia">
+        ✕
+      </button>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       PANEL LATERAL INSPECTOR: STUDIO DE DISEÑO (ESTILO CANVA / PHOTOSHOP)
+       Herramientas avanzadas: Tipografía, Formato, Fotos/Multimedia y Paleta Global
+       ========================================================================= -->
+  <aside id="adminStudioPanel" class="admin-studio-panel" aria-label="Estudio de Diseño" style="display: none;">
+    <!-- Tirador para colapsar/expandir el panel lateral -->
+    <button type="button" id="btnToggleStudioCollapse" class="studio-collapse-handle" title="Ocultar / Mostrar Estudio">
+      <span class="handle-icon">›</span>
+    </button>
+
+    <div class="studio-header">
+      <div class="studio-header-titles">
+        <span class="studio-overline">STUDIO CREATIVO</span>
+        <h3>Inspector de Diseño</h3>
+      </div>
+      <button type="button" class="studio-close-btn" id="btnCloseStudioPanel" title="Cerrar panel">✕</button>
+    </div>
+
+    <!-- Pestañas del Estudio -->
+    <div class="studio-tabs-nav" role="tablist">
+      <button type="button" class="studio-tab-btn active" data-studio-tab="tab-studio-typography" role="tab">
+        <span>✏️ Tipografía</span>
+      </button>
+      <button type="button" class="studio-tab-btn" data-studio-tab="tab-studio-media" role="tab">
+        <span>🖼️ Fotos</span>
+      </button>
+      <button type="button" class="studio-tab-btn" data-studio-tab="tab-studio-theme" role="tab">
+        <span>🎨 Paleta</span>
+      </button>
+    </div>
+
+    <div class="studio-body">
+      <!-- PESTAÑA 1: TIPOGRAFÍA & FORMATO -->
+      <div class="studio-tab-pane active" id="tab-studio-typography">
+        <div class="studio-section-banner">
+          <div class="selected-element-label">Elemento Seleccionado:</div>
+          <div class="selected-element-badge" id="studioActiveElName">Ninguno (Haz clic en un texto)</div>
+        </div>
+
+        <div class="studio-field-group" style="margin-bottom: 1.15rem;">
+          <label for="studioTextInput">Editar Texto Seleccionado:</label>
+          <textarea id="studioTextInput" class="studio-textarea" rows="3" placeholder="Haz clic en cualquier texto o escribe aquí..."></textarea>
+          <span style="font-size: 0.7rem; color: var(--cream-muted); display: block; margin-top: 0.25rem;">
+            ✏️ Escribe aquí o directamente sobre la página. Se actualiza en tiempo real.
+          </span>
+        </div>
+
+        <div class="studio-field-group">
+          <label for="studioFontFamily">Familia Tipográfica:</label>
+          <select id="studioFontFamily" class="studio-select">
+            <option value="inherit">Predeterminada de la Tienda</option>
+            <option value="'Playfair Display', serif">Playfair Display (Serif Sensorial)</option>
+            <option value="'Cinzel', serif">Cinzel (Editorial Clásica)</option>
+            <option value="'Plus Jakarta Sans', sans-serif">Plus Jakarta Sans (Moderna Limpia)</option>
+            <option value="'Outfit', sans-serif">Outfit (Geométrica)</option>
+            <option value="'Inter', sans-serif">Inter (Minimalista)</option>
+            <option value="'Georgia', serif">Georgia (Elegante Clásica)</option>
+          </select>
+        </div>
+
+        <div class="studio-field-group">
+          <label>Tamaño de Fuente:</label>
+          <div class="studio-stepper-row">
+            <button type="button" class="studio-step-btn" id="btnStudioSizeMinus">−</button>
+            <span class="studio-size-indicator" id="studioSizeDisplay">Auto</span>
+            <button type="button" class="studio-step-btn" id="btnStudioSizePlus">+</button>
+            <input type="range" id="studioFontSizeSlider" min="10" max="72" value="18" class="studio-slider">
+          </div>
+        </div>
+
+        <div class="studio-field-group">
+          <label>Estilo & Énfasis:</label>
+          <div class="studio-btn-group">
+            <button type="button" class="studio-tool-btn" id="btnToolBold" title="Negrita"><strong>B</strong></button>
+            <button type="button" class="studio-tool-btn" id="btnToolItalic" title="Cursiva"><em>I</em></button>
+            <button type="button" class="studio-tool-btn" id="btnToolUnderline" title="Subrayado"><u>U</u></button>
+            <button type="button" class="studio-tool-btn" id="btnToolStrike" title="Tachado"><s>S</s></button>
+            <button type="button" class="studio-tool-btn" id="btnToolCase" title="Mayúsculas / Minúsculas">aA</button>
+          </div>
+        </div>
+
+        <div class="studio-field-group">
+          <label>Alineación del Texto:</label>
+          <div class="studio-btn-group">
+            <button type="button" class="studio-tool-btn active" id="btnToolAlignLeft" title="Izquierda">⯈|</button>
+            <button type="button" class="studio-tool-btn" id="btnToolAlignCenter" title="Centrado">|⯏|</button>
+            <button type="button" class="studio-tool-btn" id="btnToolAlignRight" title="Derecha">|⯇</button>
+            <button type="button" class="studio-tool-btn" id="btnToolAlignJustify" title="Justificado">☰</button>
+          </div>
+        </div>
+
+        <div class="studio-field-group">
+          <label>Color del Texto:</label>
+          <div class="studio-color-row">
+            <div class="studio-swatches">
+              <button type="button" class="studio-swatch" data-color="#daa520" style="background:#daa520;" title="Oro Cacao"></button>
+              <button type="button" class="studio-swatch" data-color="#faf4eb" style="background:#faf4eb;" title="Crema Seda"></button>
+              <button type="button" class="studio-swatch" data-color="#ffffff" style="background:#ffffff;" title="Blanco Puro"></button>
+              <button type="button" class="studio-swatch" data-color="#c9883b" style="background:#c9883b;" title="Bronce"></button>
+              <button type="button" class="studio-swatch" data-color="#ff8a80" style="background:#ff8a80;" title="Frambuesa"></button>
+              <button type="button" class="studio-swatch" data-color="#c8b7a6" style="background:#c8b7a6;" title="Muted"></button>
+            </div>
+            <div class="studio-color-picker-wrap">
+              <input type="color" id="studioTextColorPicker" value="#faf4eb" title="Elegir cualquier color libre">
+            </div>
+          </div>
+        </div>
+
+        <div class="studio-field-group">
+          <label for="studioLetterSpacing">Interletrado (Espaciado):</label>
+          <select id="studioLetterSpacing" class="studio-select">
+            <option value="normal">Normal (0)</option>
+            <option value="0.05em">Sutil (+0.05em)</option>
+            <option value="0.12em">Elegante (+0.12em)</option>
+            <option value="0.22em">Monumental (+0.22em)</option>
+          </select>
+        </div>
+
+        <div style="margin-top: 1.25rem;">
+          <button type="button" class="studio-btn-secondary" id="btnStudioResetElementStyles" style="width: 100%;">
+            <span>↺ Restaurar Estilo Original de Este Texto</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- PESTAÑA 2: FOTOS & MULTIMEDIA -->
+      <div class="studio-tab-pane" id="tab-studio-media">
+        <div class="studio-section-banner">
+          <div class="selected-element-label">Foto Seleccionada:</div>
+          <div class="selected-element-badge" id="studioActiveImgName">Obra Insignia (Hero)</div>
+        </div>
+
+        <div class="studio-img-preview-box">
+          <img id="studioImgPreview" src="assets/products/caja_bombones.jpg" alt="Vista previa de imagen">
+        </div>
+
+        <div class="studio-field-group" style="margin-top: 1rem;">
+          <input type="file" id="studioFileInput" accept="image/*" style="display: none;">
+          <button type="button" class="studio-btn-primary" id="btnStudioTriggerUpload" style="width: 100%;">
+            <span>📁 Subir Foto desde tu Equipo</span>
+          </button>
+          <span style="font-size: 0.72rem; color: var(--cream-muted); display: block; margin-top: 0.35rem; text-align: center;">
+            Soporta JPG, PNG, WebP (optimización automática)
+          </span>
+        </div>
+
+        <div class="studio-divider"><span>O PEGAR URL DE IMAGEN</span></div>
+
+        <div class="studio-field-group">
+          <label for="studioImgUrlInput">URL Directa de Imagen:</label>
+          <div style="display: flex; gap: 0.4rem;">
+            <input type="url" id="studioImgUrlInput" class="studio-input" placeholder="https://ejemplo.com/foto.jpg">
+            <button type="button" class="studio-btn-secondary" id="btnStudioApplyUrl" style="padding: 0 0.85rem; flex-shrink: 0;">Aplicar</button>
+          </div>
+        </div>
+
+        <div class="studio-field-group" style="margin-top: 1.5rem;">
+          <label>Fotos Principales de la Tienda:</label>
+          <div class="studio-photo-gallery-list">
+            <div class="studio-gallery-item active" data-img-target="masterpiece_img">
+              <img src="assets/products/caja_bombones.jpg" alt="Obra Insignia">
+              <span>Creación Insignia (Hero)</span>
+            </div>
+            <div class="studio-gallery-item" data-img-target="brand_logo_img">
+              <img src="assets/logo.jpg" alt="Logo de Marca">
+              <span>Emblema / Logo del Atelier</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="studio-field-group" style="margin-top: 1.25rem;">
+          <label>Creaciones de la Vitrina (Productos en Venta):</label>
+          <div class="studio-photo-gallery-list" id="studioProductPhotoList">
+            <div class="studio-gallery-item" data-img-target="prod-1">
+              <img src="assets/products/caja_bombones.jpg" alt="Caja Bombones">
+              <span>Caja Selección Bombones</span>
+            </div>
+            <div class="studio-gallery-item" data-img-target="prod-2">
+              <img src="assets/products/trufas_cacao.jpg" alt="Trufas Cacao">
+              <span>Trufas Clásicas al Cacao</span>
+            </div>
+            <div class="studio-gallery-item" data-img-target="prod-3">
+              <img src="assets/products/tarta_chocolate.jpg" alt="Tarta Opera">
+              <span>Tarta Ópera de Autor</span>
+            </div>
+            <div class="studio-gallery-item" data-img-target="prod-4">
+              <img src="assets/products/tableta_origen.jpg" alt="Tableta Origen">
+              <span>Tableta Bean-to-Bar Bagua</span>
+            </div>
+            <div class="studio-gallery-item" data-img-target="prod-5">
+              <img src="assets/products/chocolate_caliente.jpg" alt="Chocolate Caliente">
+              <span>Chocolate Caliente Quillabamba</span>
+            </div>
+            <div class="studio-gallery-item" data-img-target="prod-6">
+              <img src="assets/products/cheesecake_frutos_rojos.jpg" alt="Cheesecake Frutos Rojos">
+              <span>Cheesecake Frutos Rojos</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top: 1.25rem; display: flex; flex-direction: column; gap: 0.5rem;">
+          <button type="button" class="studio-btn-secondary" id="btnStudioResetImg" style="width: 100%;">
+            <span>↺ Restaurar Foto Seleccionada de Fábrica</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- PESTAÑA 3: PALETA & COLORES DE MARCA -->
+      <div class="studio-tab-pane" id="tab-studio-theme">
+        <div class="studio-section-banner">
+          <div class="selected-element-label">Atmósfera Cromática:</div>
+          <div class="selected-element-badge">Colores Globales de la Web</div>
+        </div>
+
+        <div class="studio-field-group">
+          <label>Temas de Lujo Preconfigurados (1 Clic):</label>
+          <div class="studio-theme-presets-grid">
+            <button type="button" class="studio-preset-card" data-preset="tacna-original">
+              <div class="preset-color-chips">
+                <span style="background: #daa520;"></span>
+                <span style="background: #0c0502;"></span>
+                <span style="background: #faf4eb;"></span>
+              </div>
+              <span class="preset-name">🍫 Oro & Cacao Negro</span>
+            </button>
+
+            <button type="button" class="studio-preset-card" data-preset="champagne">
+              <div class="preset-color-chips">
+                <span style="background: #e6ca65;"></span>
+                <span style="background: #14100c;"></span>
+                <span style="background: #fff8f0;"></span>
+              </div>
+              <span class="preset-name">🥂 Champagne & Trufa</span>
+            </button>
+
+            <button type="button" class="studio-preset-card" data-preset="cobre">
+              <div class="preset-color-chips">
+                <span style="background: #d97736;"></span>
+                <span style="background: #0f0704;"></span>
+                <span style="background: #fdf5ef;"></span>
+              </div>
+              <span class="preset-name">🔥 Cobre & Selva Alta</span>
+            </button>
+
+            <button type="button" class="studio-preset-card" data-preset="borgona">
+              <div class="preset-color-chips">
+                <span style="background: #e5a93b;"></span>
+                <span style="background: #14070a;"></span>
+                <span style="background: #faedf0;"></span>
+              </div>
+              <span class="preset-name">🍷 Borgoña Noble</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="studio-divider"><span>PERSONALIZACIÓN MANUAL</span></div>
+
+        <div class="studio-field-group">
+          <label>Color Dorado de Acento (--gold-primary):</label>
+          <div class="studio-theme-picker-row">
+            <input type="color" id="themeGoldColor" value="#daa520">
+            <span class="color-hex-badge" id="themeGoldHex">#DAA520</span>
+          </div>
+        </div>
+
+        <div class="studio-field-group">
+          <label>Fondo Profundo del Atelier (--bg-deep):</label>
+          <div class="studio-theme-picker-row">
+            <input type="color" id="themeBgColor" value="#0c0502">
+            <span class="color-hex-badge" id="themeBgHex">#0C0502</span>
+          </div>
+        </div>
+
+        <div class="studio-field-group">
+          <label>Texto Principal de Lectura (--cream-silk):</label>
+          <div class="studio-theme-picker-row">
+            <input type="color" id="themeTextColor" value="#faf4eb">
+            <span class="color-hex-badge" id="themeTextHex">#FAF4EB</span>
+          </div>
+        </div>
+
+        <div class="studio-field-group">
+          <label>Superficie de Tarjetas Glass (--card-bg):</label>
+          <div class="studio-theme-picker-row">
+            <input type="color" id="themeCardColor" value="#1b0c05">
+            <span class="color-hex-badge" id="themeCardHex">#1B0C05</span>
+          </div>
+        </div>
+
+        <div style="margin-top: 1.25rem;">
+          <button type="button" class="studio-btn-secondary" id="btnStudioResetTheme" style="width: 100%;">
+            <span>↺ Restablecer Paleta de Fábrica</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Textura táctil de grano orgánico -->
+  <div class="noise-overlay" aria-hidden="true"></div>
+
+  <!-- =========================================================================
+       1. ENCABEZADO BOUTIQUE (FLOATING GLASSMORPHISM HEADER)
+       ========================================================================= -->
+  <header class="store-header" id="storeHeader">
+    <div class="header-inner">
+      <!-- Marca y Emblema -->
+      <a href="tienda.html" class="brand-anchor" aria-label="Amor & Cacao Inicio">
+        <div class="brand-emblem-wrap">
+          <img src="assets/logo.jpg" alt="Emblema Amor & Cacao" class="brand-emblem-img" data-cms-img-key="brand_logo_img">
+        </div>
+        <div class="brand-titles">
+          <h1 data-cms-key="brand_title">Amor & Cacao</h1>
+          <p data-cms-key="brand_tagline">Donde el amor se vuelve Chocolate</p>
+        </div>
+      </a>
+
+      <!-- Navegación Primaria -->
+      <nav aria-label="Navegación principal de la tienda">
+        <ul class="store-nav-links">
+          <li><a href="#vitrina" class="nav-link" data-cms-key="nav_link_1">La Vitrina</a></li>
+          <li><a href="#filosofia" class="nav-link" data-cms-key="nav_link_2">Alquimia & Terroir</a></li>
+          <li><a href="#ritual" class="nav-link" data-cms-key="nav_link_3">El Ritual</a></li>
+          <li><a href="#contacto" class="nav-link" data-cms-key="nav_link_4">Atelier</a></li>
+        </ul>
+      </nav>
+
+      <!-- Acciones de Cabecera: Estado en Vivo, Carrito y Acceso Admin -->
+      <div class="header-actions">
+        <div class="status-indicator-pill" title="Atelier operando con pedidos en vivo">
+          <span class="status-dot"></span>
+          <span data-cms-key="status_text">Atelier Abierto</span>
+        </div>
+
+        <button class="btn-cart-trigger" id="btnOpenCart" aria-label="Ver bolsa de selección">
+          <svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <path d="M16 10a4 4 0 0 1-8 0"/>
+          </svg>
+          <span data-cms-key="cart_btn_text">Tu Selección</span>
+          <span class="cart-count-badge" id="cartBadgeCount">0</span>
+        </button>
+
+        <a href="index.html" class="btn-admin-link" title="Acceso al Panel de Gestión y Pedidos">
+          <svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+          </svg>
+          <span>Panel POS</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- =========================================================================
+       2. HERO SECTION ASIMÉTRICO SPLIT-SCREEN (NARRATIVA & OBRA INSIGNIA)
+       ========================================================================= -->
+  <section class="hero-section" id="hero">
+    <div class="hero-glow-backplate" aria-hidden="true"></div>
+
+    <div class="hero-split-container">
+      <!-- Columna Izquierda: Narrativa de Marca y Titular Monumental -->
+      <div class="hero-narrative">
+        <div class="hero-curator-label" aria-label="Edición y Origen">
+          <span class="curator-line" aria-hidden="true"></span>
+          <span class="curator-text" data-cms-key="hero_curator">Cosecha Seleccionada 2026 · Atelier Tacna</span>
+          <span class="curator-line" aria-hidden="true"></span>
+        </div>
+
+        <h2 class="hero-headline" data-cms-key="hero_headline">
+          La Alquimia del Cacao Puro donde <span class="hero-highlight-phrase">El Amor Se Vuelve Arte</span>
+        </h2>
+
+        <p class="hero-subhead" data-cms-key="hero_subhead">
+          Chocolatería de culto elaborada grano a grano desde los valles sagrados de Cusco, Piura y Bagua. Alta repostería sensorial inspirada en el respeto botánico por los microclimas peruanos.
+        </p>
+
+        <div class="hero-cta-group">
+          <a href="#vitrina" class="btn-hero-primary">
+            <span data-cms-key="hero_cta_primary">Explorar la Vitrina de Autor</span>
+            <svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <line x1="5" y1="12" x2="19" y2="12"/>
+              <polyline points="12 5 19 12 12 19"/>
+            </svg>
+          </a>
+          <a href="#ritual" class="btn-hero-secondary">
+            <span data-cms-key="hero_cta_secondary">El Ritual de Degustación</span>
+          </a>
+        </div>
+
+        <div class="hero-badges-row">
+          <div class="hero-badge-item">
+            <svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+            </svg>
+            <span data-cms-key="hero_badge_1">Cacao Nativo 100% Puro</span>
+          </div>
+          <div class="hero-badge-item">
+            <svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="M12 6v6l4 2"/>
+            </svg>
+            <span data-cms-key="hero_badge_2">Molienda en Granito 48h</span>
+          </div>
+          <div class="hero-badge-item">
+            <svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+            </svg>
+            <span data-cms-key="hero_badge_3">Ediciones Numeradas</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Columna Derecha: Showcase Escultural de la Obra Insignia -->
+      <div class="hero-showcase-pedestal">
+        <article class="hero-masterpiece-card">
+          <div class="masterpiece-media-wrap">
+            <img src="assets/products/caja_bombones.jpg" alt="Caja Selección Bombones de Autor" class="masterpiece-media-img" data-cms-img-key="masterpiece_img">
+            <div class="masterpiece-tag-curator" data-cms-key="masterpiece_tag">Creación Insignia del Mes</div>
+          </div>
+
+          <div class="masterpiece-body">
+            <div class="masterpiece-coords" data-cms-key="masterpiece_coords">12°51'S 72°41'W · Quillabamba, Cusco (1,200 m)</div>
+            <h3 class="masterpiece-title" data-cms-key="masterpiece_title">Caja Selección Bombones de Autor</h3>
+            <p class="masterpiece-desc" data-cms-key="masterpiece_desc">
+              12 bombones pintados a mano al óleo de cacao. Ganache aterciopelada al 70%, maracuyá silvestre y praliné crujiente de avellanas.
+            </p>
+
+            <div class="masterpiece-metrics-grid">
+              <div class="metric-box">
+                <strong data-cms-key="masterpiece_m1_strong">Pureza</strong>
+                <span data-cms-key="masterpiece_m1_val">70% Nativo</span>
+              </div>
+              <div class="metric-box">
+                <strong data-cms-key="masterpiece_m2_strong">Perfil</strong>
+                <span data-cms-key="masterpiece_m2_val">Jazmín & Miel</span>
+              </div>
+              <div class="metric-box">
+                <strong data-cms-key="masterpiece_m3_strong">Fusión</strong>
+                <span data-cms-key="masterpiece_m3_val">48 Segundos</span>
+              </div>
+            </div>
+
+            <div class="masterpiece-action-row">
+              <div>
+                <span class="price-currency-small" data-cms-key="masterpiece_price_label">Presentación 12 uds</span>
+                <div class="price-amount-large" data-cms-key="masterpiece_price_val">S/. 68.00</div>
+              </div>
+              <button type="button" class="btn-add-bag" id="btnHeroAddMasterpiece">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+                  <line x1="3" y1="6" x2="21" y2="6"/>
+                  <path d="M16 10a4 4 0 0 1-8 0"/>
+                </svg>
+                <span data-cms-key="masterpiece_add_btn">Añadir a mi Selección</span>
+              </button>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       3. MARQUEE / TICKER SENSORIAL INFINITO
+       ========================================================================= -->
+  <aside class="marquee-bar" aria-label="Filosofía sensorial">
+    <div class="marquee-content">
+      <div class="marquee-item"><span data-cms-key="marquee_1">CHUNCHO 70% CUSCO</span></div>
+      <div class="marquee-item"><span data-cms-key="marquee_2">PIURA BLANCO NATIVO</span></div>
+      <div class="marquee-item"><span data-cms-key="marquee_3">MANTEQUILLA DE CACAO VIRGEN</span></div>
+      <div class="marquee-item"><span data-cms-key="marquee_4">GANACHE INFUSIONADA EN FRÍO</span></div>
+      <div class="marquee-item"><span data-cms-key="marquee_5">HOJA DE ORO COMESTIBLE</span></div>
+      <div class="marquee-item"><span data-cms-key="marquee_6">BAGUA CRIOLLO AMAZÓNICO</span></div>
+      <div class="marquee-item"><span data-cms-key="marquee_7">FRUTOS ROJOS SILVESTRES</span></div>
+      <div class="marquee-item"><span data-cms-key="marquee_8">CERO GRASAS HIDROGENADAS</span></div>
+      <!-- Duplicado para loop continuo fluido -->
+      <div class="marquee-item"><span>CHUNCHO 70% CUSCO</span></div>
+      <div class="marquee-item"><span>PIURA BLANCO NATIVO</span></div>
+      <div class="marquee-item"><span>MANTEQUILLA DE CACAO VIRGEN</span></div>
+      <div class="marquee-item"><span>GANACHE INFUSIONADA EN FRÍO</span></div>
+      <div class="marquee-item"><span>HOJA DE ORO COMESTIBLE</span></div>
+      <div class="marquee-item"><span>BAGUA CRIOLLO AMAZÓNICO</span></div>
+      <div class="marquee-item"><span>FRUTOS ROJOS SILVESTRES</span></div>
+      <div class="marquee-item"><span>CERO GRASAS HIDROGENADAS</span></div>
+    </div>
+  </aside>
+
+  <!-- =========================================================================
+       4. SECCIÓN 2: ALQUIMIA DEL CACAO & BENTO GRID DE TERROIR CON MÉTRICAS
+       ========================================================================= -->
+  <section class="section-container" id="filosofia">
+    <div class="section-header-center">
+      <span class="section-tag" data-cms-key="filosofia_tag">NUESTRA HERENCIA & FILOSOFÍA</span>
+      <h2 class="section-title" data-cms-key="filosofia_title">El Cacao de Origen no se fabrica, <span class="title-accent">se custodia</span></h2>
+      <p class="section-desc" data-cms-key="filosofia_desc">
+        Cada bocado es un viaje geográfico a través de los microclimas más prestigiosos del Perú. Trabajamos en alianza directa con familias recolectoras preservando variedades ancestrales en vías de extinción.
+      </p>
+    </div>
+
+    <div class="bento-grid">
+      <!-- Tarjeta Bento 1: Valle de La Convención Cusco con Métricas (Span 8) -->
+      <article class="bento-card span-8">
+        <div class="bento-icon-box">
+          <svg viewBox="0 0 24 24">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/>
+          </svg>
+        </div>
+        <h3 data-cms-key="bento_1_title">Cacao Chuncho — Cusco (1,200 m.s.n.m.)</h3>
+        <p data-cms-key="bento_1_desc">
+          Considerado por maestros chocolateros internacionales como uno de los cacaos más aromáticos del planeta. Bajísima astringencia natural y un perfil explosivo a jazmín, ciruelas secas y miel de ceja de selva.
+        </p>
+
+        <!-- Ficha Técnica de Terroir & Origen Botánico -->
+        <div class="terroir-spec-grid">
+          <div class="spec-cell">
+            <span class="spec-label" data-cms-key="bento_1_s1_l">Variedad Genotípica</span>
+            <span class="spec-value" data-cms-key="bento_1_s1_v">Criollo Chuncho Ancestral</span>
+          </div>
+          <div class="spec-cell">
+            <span class="spec-label" data-cms-key="bento_1_s2_l">Terroir & Altitud</span>
+            <span class="spec-value" data-cms-key="bento_1_s2_v">Ceja de Selva · 1,200 m.s.n.m.</span>
+          </div>
+          <div class="spec-cell">
+            <span class="spec-label" data-cms-key="bento_1_s3_l">Fermentación</span>
+            <span class="spec-value" data-cms-key="bento_1_s3_v">6 días en cajones de laurel</span>
+          </div>
+          <div class="spec-cell">
+            <span class="spec-label" data-cms-key="bento_1_s4_l">Tostado de Atelier</span>
+            <span class="spec-value" data-cms-key="bento_1_s4_v">Lento a 115°C para salvaguardar ésteres</span>
+          </div>
+          <div class="spec-cell spec-cell-wide">
+            <span class="spec-label" data-cms-key="bento_1_s5_l">Descriptores de Cata</span>
+            <span class="spec-value" data-cms-key="bento_1_s5_v">Miel de azahar, mandarina confitada, jazmín silvestre y nueces tostadas</span>
+          </div>
+        </div>
+
+        <div class="bento-origin-pill" data-cms-key="bento_1_pill">Valle Sagrado & Quillabamba · Trazabilidad 100% Directa</div>
+      </article>
+
+      <!-- Tarjeta Bento 2: Piura Blanco con Ficha Técnica (Span 4) -->
+      <article class="bento-card span-4">
+        <div class="bento-icon-box">
+          <svg viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="5"/>
+            <line x1="12" y1="1" x2="12" y2="3"/>
+            <line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1" y1="12" x2="3" y2="12"/>
+            <line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+        </div>
+        <h3 data-cms-key="bento_2_title">Piura Blanco Nativo</h3>
+        <p data-cms-key="bento_2_desc">
+          Una anomalía botánica sublime. Granos albinos que confieren al chocolate una textura sedosa y una acidez frutal brillante recordando a lima dulce y maracuyá.
+        </p>
+
+        <!-- Ficha Técnica de Terroir & Origen Botánico -->
+        <div class="terroir-spec-grid">
+          <div class="spec-cell">
+            <span class="spec-label" data-cms-key="bento_2_s1_l">Variedad Genotípica</span>
+            <span class="spec-value" data-cms-key="bento_2_s1_v">Cacao Blanco Albino Nativo</span>
+          </div>
+          <div class="spec-cell">
+            <span class="spec-label" data-cms-key="bento_2_s2_l">Terroir & Altitud</span>
+            <span class="spec-value" data-cms-key="bento_2_s2_v">Bosque Seco · 350 m.s.n.m.</span>
+          </div>
+          <div class="spec-cell">
+            <span class="spec-label" data-cms-key="bento_2_s3_l">Fermentación</span>
+            <span class="spec-value" data-cms-key="bento_2_s3_v">4 días en madera blanca</span>
+          </div>
+          <div class="spec-cell">
+            <span class="spec-label" data-cms-key="bento_2_s4_l">Tostado de Atelier</span>
+            <span class="spec-value" data-cms-key="bento_2_s4_v">Ultradelicado para cuidar acidez frutal</span>
+          </div>
+          <div class="spec-cell spec-cell-wide">
+            <span class="spec-label" data-cms-key="bento_2_s5_l">Descriptores de Cata</span>
+            <span class="spec-value" data-cms-key="bento_2_s5_v">Ciruela blanca, lima dulce, maracuyá y crema fresca aterciopelada</span>
+          </div>
+        </div>
+
+        <div class="bento-origin-pill" data-cms-key="bento_2_pill">Alto Piura · Bosque Seco Tropical</div>
+      </article>
+
+      <!-- Tarjeta Bento 3: Molienda Lenta 48h (Span 6) -->
+      <article class="bento-card span-6">
+        <div class="bento-icon-box">
+          <svg viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="9"/>
+            <path d="M12 3v18"/>
+            <path d="M3 12h18"/>
+          </svg>
+        </div>
+        <h3 data-cms-key="bento_3_title">Molienda Lenta en Molino de Granito</h3>
+        <p data-cms-key="bento_3_desc">
+          Conchamos nuestro cacao lentamente por más de 48 horas continuas a temperaturas controladas bajo 42°C, protegiendo los polifenoles, antioxidantes y la sutileza de los aceites aromáticos esenciales.
+        </p>
+        <div class="bento-origin-pill" data-cms-key="bento_3_pill">Proceso Slow Food · Refinado en Piedra</div>
+      </article>
+
+      <!-- Tarjeta Bento 4: Pureza Absoluta (Span 6) -->
+      <article class="bento-card span-6">
+        <div class="bento-icon-box">
+          <svg viewBox="0 0 24 24">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+        </div>
+        <h3 data-cms-key="bento_4_title">Pureza Absoluta sin Grasas Añadidas</h3>
+        <p data-cms-key="bento_4_desc">
+          En Amor & Cacao jamás empleamos sucedáneos, aceite de palma ni aromas sintéticos. Solo pasta de cacao pura, manteca de cacao virgen y azúcar de caña orgánica sin refinar.
+        </p>
+        <div class="bento-origin-pill" data-cms-key="bento_4_pill">100% Ingredientes Nobles Certificados</div>
+      </article>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       5. NUEVA SECCIÓN: EL RITUAL DE LA DEGUSTACIÓN (ARTE & PROTOCOLO SENSORIAL)
+       ========================================================================= -->
+  <section class="ritual-section" id="ritual">
+    <div class="section-header-center">
+      <span class="section-tag" data-cms-key="ritual_tag">ARTE & PROTOCOLO SENSORIAL</span>
+      <h2 class="section-title" data-cms-key="ritual_title">El Ritual de la <span class="title-accent">Degustación</span></h2>
+      <p class="section-desc" data-cms-key="ritual_desc">
+        Para experimentar la plenitud botánica de nuestras creaciones, los maestros chocolateros del atelier recomiendan seguir este protocolo en tres tiempos:
+      </p>
+    </div>
+
+    <div class="ritual-steps-grid">
+      <!-- Paso 1 -->
+      <div class="ritual-step-card">
+        <div class="ritual-step-number" data-cms-key="ritual_1_num">01</div>
+        <h3 data-cms-key="ritual_1_title">El Chasquido (31°C)</h3>
+        <p data-cms-key="ritual_1_desc">
+          Al quebrar la tableta o bombón, el sonido limpio y nítido verifica la cristalización perfecta de la manteca virgen de cacao en su forma molecular más noble (Cristal Forma V).
+        </p>
+        <div class="ritual-temp-pill" data-cms-key="ritual_1_pill">Cristalización Perfecta</div>
+      </div>
+
+      <!-- Paso 2 -->
+      <div class="ritual-step-card">
+        <div class="ritual-step-number" data-cms-key="ritual_2_num">02</div>
+        <h3 data-cms-key="ritual_2_title">El Bouquet Aromático</h3>
+        <p data-cms-key="ritual_2_desc">
+          Aspirar profundamente a temperatura ambiente (20°C). El ligero calor de las manos despierta los terpenos volátiles con notas de jazmín, ciruela pasa y madera noble.
+        </p>
+        <div class="ritual-temp-pill" data-cms-key="ritual_2_pill">Temperatura Ambiente 20°C</div>
+      </div>
+
+      <!-- Paso 3 -->
+      <div class="ritual-step-card">
+        <div class="ritual-step-number" data-cms-key="ritual_3_num">03</div>
+        <h3 data-cms-key="ritual_3_title">La Fusión en Paladar</h3>
+        <p data-cms-key="ritual_3_desc">
+          Posar el chocolate sobre el centro de la lengua sin masticar. Permitir que el calor corporal (36.5°C) lo funda en 48 segundos, liberando tres capas progresivas de sabor.
+        </p>
+        <div class="ritual-temp-pill" data-cms-key="ritual_3_pill">48 Segundos de Despliegue</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       6. SECCIÓN: LA VITRINA DE AUTOR (CATÁLOGO SENSORIAL EN VIVO)
+       ========================================================================= -->
+  <section class="vitrina-section" id="vitrina">
+    <div class="section-header-center">
+      <span class="section-tag" data-cms-key="vitrina_tag">COLECCIONES EXCLUSIVAS</span>
+      <h2 class="section-title" data-cms-key="vitrina_title">La Vitrina de <span class="title-accent">Autor</span></h2>
+      <p class="section-desc" data-cms-key="vitrina_desc">
+        Selecciona tu presentación preferida, explora el perfil de aromas y genera tu pedido con confirmación directa por WhatsApp y registro automático en nuestro atelier.
+      </p>
+    </div>
+
+    <!-- Navegación de Filtros por Categoría (Sin Emojis) -->
+    <div class="category-filter-nav" id="categoryNav" role="tablist" aria-label="Filtros de colecciones">
+      <button class="store-cat-pill active" data-category="todos" role="tab" aria-selected="true" data-cms-key="cat_todos">
+        Todos los Sabores
+      </button>
+      <button class="store-cat-pill" data-category="regalos" role="tab" aria-selected="false" data-cms-key="cat_regalos">
+        Cajas de Regalo
+      </button>
+      <button class="store-cat-pill" data-category="bombones" role="tab" aria-selected="false" data-cms-key="cat_bombones">
+        Bombones & Trufas
+      </button>
+      <button class="store-cat-pill" data-category="pasteles" role="tab" aria-selected="false" data-cms-key="cat_pasteles">
+        Pasteles & Tartas
+      </button>
+      <button class="store-cat-pill" data-category="tabletas" role="tab" aria-selected="false" data-cms-key="cat_tabletas">
+        Tabletas de Origen
+      </button>
+      <button class="store-cat-pill" data-category="postres" role="tab" aria-selected="false" data-cms-key="cat_postres">
+        Postres de Vitrina
+      </button>
+      <button class="store-cat-pill" data-category="bebidas" role="tab" aria-selected="false" data-cms-key="cat_bebidas">
+        Bebidas de Cacao
+      </button>
+    </div>
+
+    <!-- Cuadrícula Dinámica de Productos con Kicker Editorial & Selectores -->
+    <div class="products-showcase-grid" id="productsGrid" aria-live="polite">
+      <!-- Renderizado reactivo desde js/storefront.js -->
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       7. SECCIÓN: EXPERIENCIA DEL ATELIER & TACNA
+       ========================================================================= -->
+  <section class="section-container" id="experiencia">
+    <div class="bento-grid">
+      <div class="bento-card span-8" style="background: linear-gradient(135deg, rgba(32, 14, 7, 0.85), rgba(18, 8, 4, 0.95));">
+        <div class="bento-icon-box">
+          <svg viewBox="0 0 24 24">
+            <path d="M18 8h1a4 4 0 0 1 0 8h-1"/>
+            <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/>
+            <line x1="6" y1="1" x2="6" y2="4"/>
+            <line x1="10" y1="1" x2="10" y2="4"/>
+            <line x1="14" y1="1" x2="14" y2="4"/>
+          </svg>
+        </div>
+        <h3 data-cms-key="exp_title">Experiencias Privadas de Cata & Maridaje</h3>
+        <p data-cms-key="exp_desc">
+          En nuestro salón íntimo en Tacna, ofrecemos sesiones guiadas por maestros chocolateros y sommeliers. Un recorrido por 6 variedades de granos de cacao maridados con destilados de autor, café de especialidad y vinos fortificados.
+        </p>
+        <p data-cms-key="exp_note" style="margin-top: 1.25rem; color: var(--gold-light); font-weight: 600; font-size: 0.88rem; letter-spacing: 0.03em;">
+          Reservas con 48 horas de anticipación a través de nuestra línea de atención personalizada.
+        </p>
+      </div>
+
+      <div class="bento-card span-4">
+        <div class="bento-icon-box">
+          <svg viewBox="0 0 24 24">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+            <circle cx="12" cy="10" r="3"/>
+          </svg>
+        </div>
+        <h3 data-cms-key="atelier_box_title">Atelier Tacna</h3>
+        <p data-cms-key="atelier_box_address">
+          Centro Histórico de Tacna<br>
+          Punto de Encuentro: Paseo Cívico (Arco Parabólico)<br>
+          Tacna, Perú
+        </p>
+        <p data-cms-key="atelier_box_hours" style="margin-top: 1rem; font-size: 0.82rem; color: var(--caramel-amber); line-height: 1.6;">
+          <strong>Horario de Atención:</strong><br>
+          Lunes a Sábado: 09:00 - 20:00<br>
+          Domingos: 10:00 - 18:00
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       8. DRAWER LATERAL DE BOLSA / CARRITO (SLIDE-IN CART)
+       ========================================================================= -->
+  <div class="cart-backdrop" id="cartBackdrop" aria-hidden="true"></div>
+
+  <aside class="cart-drawer" id="cartDrawer" aria-label="Bolsa de selección" aria-modal="true" role="dialog">
+    <div class="cart-drawer-header">
+      <h3>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <path d="M16 10a4 4 0 0 1-8 0"/>
+        </svg>
+        <span>Tu Selección</span>
+      </h3>
+      <button class="btn-close-drawer" id="btnCloseCart" aria-label="Cerrar bolsa">✕</button>
+    </div>
+
+    <div class="cart-drawer-items" id="cartItemsList">
+      <!-- Se inyecta dinámicamente -->
+    </div>
+
+    <div class="cart-drawer-checkout" id="cartCheckoutBox">
+      <div class="drawer-summary-line">
+        <span>Subtotal Creaciones:</span>
+        <span id="drawerSubtotalDisplay">S/. 0.00</span>
+      </div>
+      <div class="drawer-summary-line">
+        <span>Envío / Delivery Especial:</span>
+        <span id="drawerDeliveryDisplay">S/. 0.00</span>
+      </div>
+      <div class="drawer-total-line">
+        <span>Total a Pagar:</span>
+        <span id="drawerTotalDisplay">S/. 0.00</span>
+      </div>
+
+      <form class="checkout-form-compact" id="checkoutForm" onsubmit="return false;">
+        <input type="text" id="custName" placeholder="Tu Nombre Completo *" required autocomplete="name">
+        <input type="tel" id="custWhatsapp" placeholder="Número de WhatsApp (ej. 987654321) *" required autocomplete="tel">
+        
+        <select id="custDeliveryType">
+          <option value="pickup_civico">Punto de Encuentro: Paseo Cívico de Tacna (Arco Parabólico - Sin costo)</option>
+          <option value="delivery_tacna">Delivery a Domicilio: Tacna Cercado / Gregorio Albarracín / Pocollay (S/. 8.00)</option>
+          <option value="delivery_tacna_distritos">Delivery Especial: Alto de la Alianza / Ciudad Nueva / Cono Norte (S/. 10.00)</option>
+          <option value="pickup_atelier">Recojo directo en Atelier (Centro Histórico de Tacna - Sin costo)</option>
+        </select>
+
+        <input type="text" id="custAddress" placeholder="Dirección de Entrega o Referencia">
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
+          <input type="date" id="custDate" title="Fecha de Entrega deseada">
+          <input type="time" id="custTime" value="16:00" title="Hora aproximada de entrega">
+        </div>
+
+        <select id="custPaymentMethod">
+          <option value="Yape">Pago mediante Yape (Billetera Digital)</option>
+          <option value="Plin">Pago mediante Plin</option>
+          <option value="Transferencia BCP/BBVA">Transferencia Bancaria Inmediata</option>
+          <option value="Efectivo contraentrega">Efectivo contraentrega (Solo recojo en atelier)</option>
+        </select>
+
+        <input type="text" id="custNotes" placeholder="Dedicatoria o instrucciones especiales de regalo">
+
+        <button type="submit" class="btn-confirm-order-wsp" id="btnSubmitOrder">
+          <svg viewBox="0 0 24 24">
+            <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2zm5.79 14.07c-.24.68-1.4 1.25-1.92 1.33-.5.08-1.15.11-3.37-.81-2.22-.92-3.65-3.17-3.76-3.32-.11-.15-.9-1.2-0.9-2.28 0-1.09.57-1.63.77-1.85.2-.22.44-.28.59-.28.15 0 .3 0 .43.01.14.01.32-.05.5.38.19.46.65 1.58.71 1.7.06.12.1.26.02.42-.08.16-.12.26-.24.4-.12.14-.25.31-.36.42-.12.12-.25.25-.11.49.14.24.62 1.02 1.33 1.65.91.81 1.68 1.06 1.92 1.18.24.12.38.1.52-.06.14-.16.6-0.7.76-.94.16-.24.32-.2.54-.12.22.08 1.4.66 1.64.78.24.12.4.18.46.28.06.1.06.58-.18 1.26z"/>
+          </svg>
+          <span>Confirmar Pedido vía WhatsApp</span>
+        </button>
+      </form>
+
+      <p style="font-size: 0.72rem; color: var(--cream-muted); text-align: center; margin-top: 0.65rem; line-height: 1.5;">
+        Tu pedido se registrará automáticamente en el obrador para verificación y abrirá WhatsApp con el detalle listo.
+      </p>
+    </div>
+  </aside>
+
+  <!-- =========================================================================
+       9. MODAL DE FICHA DE CATA SENSORIAL
+       ========================================================================= -->
+  <div class="tasting-modal-backdrop" id="tastingModal" aria-hidden="true" role="dialog">
+    <div class="tasting-modal-card">
+      <div class="tasting-modal-header">
+        <img id="modalImage" src="assets/products/caja_bombones.jpg" alt="Producto de Autor">
+        <button class="btn-close-modal" id="btnCloseModal" aria-label="Cerrar ficha">✕</button>
+      </div>
+
+      <div class="tasting-modal-body">
+        <span class="section-tag" id="modalOrigin">CACAO CHUNCHO 70%</span>
+        <h3 id="modalTitle">Nombre de la Creación</h3>
+        <p id="modalDesc" style="color: var(--cream-muted); font-size: 0.9rem; margin-bottom: 1.15rem; line-height: 1.65;"></p>
+
+        <div class="tasting-radar-box">
+          <div class="radar-stat-item">
+            <strong>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                <circle cx="12" cy="10" r="3"/>
+              </svg>
+              <span>Terroir & Altitud</span>
+            </strong>
+            <span id="modalTerroirVal">Cusco - 1,200 m</span>
+          </div>
+          <div class="radar-stat-item">
+            <strong>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M12 6v6l4 2"/>
+              </svg>
+              <span>Porcentaje de Cacao</span>
+            </strong>
+            <span id="modalPercentageVal">70% Cacao Nativo</span>
+          </div>
+          <div class="radar-stat-item">
+            <strong>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+              </svg>
+              <span>Perfil Aromático</span>
+            </strong>
+            <span id="modalAromaVal">Jazmín, frutos secos, miel</span>
+          </div>
+          <div class="radar-stat-item">
+            <strong>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path d="M18 8h1a4 4 0 0 1 0 8h-1"/>
+                <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/>
+              </svg>
+              <span>Maridaje Sugerido</span>
+            </strong>
+            <span id="modalPairingVal">Café Geisha o Malbec</span>
+          </div>
+        </div>
+
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 1.5rem; padding-top: 1.25rem; border-top: 1px solid rgba(255, 255, 255, 0.1);">
+          <div>
+            <span class="price-currency-small">Inversión Sensorial</span>
+            <div class="price-amount-large" id="modalPrice">S/. 0.00</div>
+          </div>
+          <button class="btn-hero-primary" id="btnModalAddToCart" style="padding: 0.75rem 1.6rem; font-size: 0.88rem;">
+            <span>Añadir a mi Selección</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       10. FOOTER BOUTIQUE (ALINEACIÓN HORIZONTAL ESTRICTA)
+       ========================================================================= -->
+  <footer class="store-footer" id="contacto">
+    <div class="footer-inner">
+      <div class="footer-brand-info">
+        <h4 data-cms-key="footer_brand_title">Amor & Cacao</h4>
+        <p data-cms-key="footer_manifesto">
+          Donde el amor se vuelve Chocolate. Repostería fina, bombones de autor y bean-to-bar elaborados con maestría en Tacna, Perú.
+        </p>
+      </div>
+
+      <div class="footer-col">
+        <h5 data-cms-key="footer_col_1_title">Navegación</h5>
+        <ul>
+          <li><a href="#vitrina" data-cms-key="footer_nav_1">La Vitrina</a></li>
+          <li><a href="#filosofia" data-cms-key="footer_nav_2">Terroir & Alquimia</a></li>
+          <li><a href="#ritual" data-cms-key="footer_nav_3">El Ritual de Cata</a></li>
+          <li><a href="index.html" data-cms-key="footer_nav_4">Panel de Administración</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5 data-cms-key="footer_col_2_title">Colecciones</h5>
+        <ul>
+          <li><a href="#vitrina" data-cms-key="footer_col_item_1">Bombones de Autor</a></li>
+          <li><a href="#vitrina" data-cms-key="footer_col_item_2">Tartas & Mousse</a></li>
+          <li><a href="#vitrina" data-cms-key="footer_col_item_3">Tabletas de Origen</a></li>
+          <li><a href="#vitrina" data-cms-key="footer_col_item_4">Cajas de Degustación</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5 data-cms-key="footer_col_3_title">Contacto & Atelier</h5>
+        <ul>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+              <circle cx="12" cy="10" r="3"/>
+            </svg>
+            <span data-cms-key="atelier_address">Paseo Cívico / Centro Histórico, Tacna</span>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+            </svg>
+            <span data-cms-key="atelier_phone">+51 987 654 321</span>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+              <polyline points="22,6 12,13 2,6"/>
+            </svg>
+            <span data-cms-key="atelier_email">contacto@amorcacao.com</span>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <circle cx="12" cy="12" r="10"/>
+              <polyline points="12 6 12 12 16 14"/>
+            </svg>
+            <span data-cms-key="atelier_hours">Lun-Sáb: 09:00 - 20:00</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom-bar">
+      <div data-cms-key="footer_copy">© 2026 Amor & Cacao. Todos los derechos reservados. Maestría chocolatera artesanal · Tacna, Perú.</div>
+      <div>
+        <a href="index.html" style="color: var(--gold-primary); text-decoration: none; font-weight: 600; letter-spacing: 0.04em;">
+          Abrir Sistema POS & Órdenes Web →
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- =========================================================================
+       11. BOTÓN FLOTANTE PERMANENTE: "TU SELECCIÓN" (FAB DE LUJO)
+       ========================================================================= -->
+  <button type="button" class="floating-cart-fab" id="btnFloatingCart" aria-label="Abrir Tu Selección de Compra" title="Tu Selección de Compra">
+    <div class="fab-icon-container">
+      <svg class="fab-svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+        <line x1="3" y1="6" x2="21" y2="6"/>
+        <path d="M16 10a4 4 0 0 1-8 0"/>
+      </svg>
+      <span class="fab-badge" id="floatingCartBadge">0</span>
+    </div>
+    <span class="fab-text">Tu Selección</span>
+  </button>
+
+  <!-- Toast Notification Container -->
+  <div id="toastNotification" style="
+    position: fixed;
+    bottom: 5.8rem;
+    right: 2rem;
+    background: linear-gradient(135deg, #220f07, #130703);
+    border: 1px solid var(--gold-border-bright);
+    color: var(--cream-silk);
+    padding: 0.95rem 1.45rem;
+    border-radius: 12px;
+    box-shadow: 0 12px 35px rgba(0,0,0,0.85), 0 0 20px rgba(218,165,32,0.25);
+    font-size: 0.88rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    z-index: 3000;
+    transform: translateY(120px);
+    opacity: 0;
+    transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    pointer-events: none;
+  ">
+    <svg id="toastIconSvg" class="svg-icon" style="width: 18px; height: 18px; stroke: var(--gold-primary);" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+      <polyline points="22 4 12 14.01 9 11.01"/>
+    </svg>
+    <span id="toastMessage">Producto añadido</span>
+  </div>
+
+  <!-- Scripts: Datos iniciales, Store global reactivo y Lógica Motion de Tienda -->
+  <script src="js/data.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/storefront.js"></script>
+</body>
+</html>

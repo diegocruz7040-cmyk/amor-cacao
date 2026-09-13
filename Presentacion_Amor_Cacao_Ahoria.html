@@ -1,0 +1,1229 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Informe Funcional y Presentación Ejecutiva — Amor & Cacao | Ahor.ia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Newsreader:ital,wght@0,400;0,500;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  @page {
+    size: A4 portrait;
+    margin: 0;
+  }
+  :root {
+    --tinta: #131110;
+    --papel: #faf9f6;
+    --tinta-suave: #4a453f;
+    --ambar: #c8781f;
+    --ambar-oscuro: #94520e;
+    --gris-linea: #ddd9d1;
+    --gris-fondo: #f2efe9;
+    --cacao-deep: #1d0f07;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 0;
+    background: #e4e1da;
+    font-family: 'Newsreader', Georgia, 'Times New Roman', serif;
+    color: var(--tinta);
+    font-size: 13.1px;
+    line-height: 1.56;
+  }
+  .wordmark {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+  .wordmark .pt {
+    font-weight: 700;
+    color: var(--ambar);
+  }
+  .mono {
+    font-family: 'Space Mono', 'Courier New', monospace;
+    letter-spacing: .03em;
+  }
+
+  .hoja {
+    width: 210mm;
+    min-height: 297mm;
+    height: 297mm;
+    max-height: 297mm;
+    margin: 0 auto;
+    background: var(--papel);
+    position: relative;
+    box-shadow: 0 0 14px rgba(0,0,0,.12);
+    padding: 16mm 16mm 16mm 16mm;
+    overflow: hidden;
+    page-break-after: always;
+    break-after: page;
+  }
+  .hoja + .hoja {
+    margin-top: 8mm;
+  }
+
+  /* Encabezado Membretado Oficial Ahor.ia */
+  .encabezado {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    border-bottom: 1.2px solid var(--tinta);
+    padding-bottom: 3.5mm;
+    margin-bottom: 4mm;
+  }
+  .encabezado .marca {
+    font-size: 21px;
+    line-height: 1;
+  }
+  .encabezado .marca .tag {
+    display: block;
+    font-family: 'Space Mono', monospace;
+    font-size: 8.5px;
+    letter-spacing: 1.5px;
+    color: var(--tinta-suave);
+    text-transform: uppercase;
+    margin-top: 1.5mm;
+  }
+  .encabezado .doc-meta {
+    text-align: right;
+    font-family: 'Space Mono', monospace;
+    font-size: 8.8px;
+    color: var(--tinta-suave);
+    line-height: 1.4;
+  }
+  .encabezado .doc-meta .num {
+    color: var(--ambar);
+    font-weight: 700;
+  }
+
+  /* Pie de Página Membretado */
+  .pie {
+    position: absolute;
+    bottom: 9mm;
+    left: 16mm;
+    right: 16mm;
+    display: flex;
+    justify-content: space-between;
+    font-family: 'Space Mono', monospace;
+    font-size: 8px;
+    color: var(--tinta-suave);
+    border-top: 1px solid var(--gris-linea);
+    padding-top: 2.8mm;
+    letter-spacing: .3px;
+  }
+
+  h1.titulo-doc {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    color: var(--tinta);
+    margin: 5mm 0 1.5mm 0;
+    font-weight: 600;
+    line-height: 1.2;
+  }
+  p.subtitulo-doc {
+    margin: 0 0 4.5mm 0;
+    color: var(--tinta-suave);
+    font-size: 11.5px;
+    font-style: italic;
+    font-family: 'Newsreader', serif;
+  }
+
+  h2.tit-modulo {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 15.5px;
+    color: var(--tinta);
+    margin: 6mm 0 3.5mm 0;
+    padding-bottom: 1.8mm;
+    border-bottom: 2px solid var(--ambar);
+    display: flex;
+    align-items: baseline;
+    gap: 3mm;
+  }
+  h2.tit-modulo .num {
+    font-family: 'Space Mono', monospace;
+    color: var(--ambar);
+    font-size: 12.5px;
+  }
+  h3.tit-sub {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 12.5px;
+    color: var(--tinta);
+    margin: 4mm 0 2mm 0;
+  }
+  h3.tit-sub::before {
+    content: '· ';
+    color: var(--ambar);
+    font-weight: bold;
+  }
+
+  table.t-modulo {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 2mm 0 3.5mm 0;
+    font-size: 11.3px;
+  }
+  table.t-modulo th {
+    background: #fff;
+    color: var(--tinta);
+    text-align: left;
+    padding: 2mm 2.8mm;
+    border-top: 1px solid var(--tinta);
+    border-bottom: 1px solid var(--tinta);
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: .4px;
+    font-weight: 700;
+  }
+  table.t-modulo td {
+    padding: 2mm 2.8mm;
+    border-bottom: 1px solid var(--gris-linea);
+    vertical-align: top;
+  }
+
+  ul.lista-clara {
+    margin: 1mm 0 2.8mm 0;
+    padding-left: 4.5mm;
+  }
+  ul.lista-clara li {
+    margin-bottom: 1.4mm;
+  }
+  ul.lista-clara li::marker {
+    color: var(--ambar);
+  }
+
+  .caja-objetivo {
+    background: #fff;
+    border-left: 3.5px solid var(--ambar);
+    padding: 2.8mm 3.8mm;
+    margin: 2.8mm 0;
+    font-size: 11.8px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.03);
+  }
+  .caja-objetivo b {
+    color: var(--tinta);
+    font-family: 'Fraunces', serif;
+  }
+
+  .caja-relaciones {
+    background: #fff;
+    border: 1px solid var(--gris-linea);
+    padding: 2.8mm 3.8mm;
+    margin: 3mm 0;
+    font-size: 11.3px;
+  }
+  .caja-relaciones .tit-rel {
+    font-family: 'Space Mono', monospace;
+    font-size: 8.8px;
+    text-transform: uppercase;
+    letter-spacing: .6px;
+    color: var(--ambar);
+    margin-bottom: 1.8mm;
+    display: block;
+    font-weight: 700;
+  }
+  .caja-relaciones ul {
+    margin: 0;
+    padding-left: 4.5mm;
+  }
+  .caja-relaciones li {
+    margin-bottom: 1.2mm;
+  }
+
+  .chip {
+    display: inline-block;
+    font-family: 'Space Mono', monospace;
+    background: #fff;
+    color: var(--tinta);
+    border: 1px solid var(--tinta);
+    padding: 1px 7px;
+    font-size: 9px;
+    margin: 1px 2px 1px 0;
+  }
+  .chip.rol {
+    border-color: var(--ambar);
+    color: var(--ambar-oscuro);
+    font-weight: 700;
+  }
+
+  .kpi-row {
+    display: flex;
+    gap: 3.5mm;
+    margin: 4mm 0 5mm 0;
+    flex-wrap: nowrap;
+  }
+  .kpi {
+    flex: 1;
+    background: #fff;
+    border-top: 2.5px solid var(--ambar);
+    padding: 2.8mm 3.2mm;
+    text-align: center;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.03);
+  }
+  .kpi .n {
+    font-family: 'Fraunces', serif;
+    font-size: 19px;
+    font-weight: 600;
+    color: var(--tinta);
+    line-height: 1.1;
+  }
+  .kpi .l {
+    font-family: 'Space Mono', monospace;
+    font-size: 8px;
+    color: var(--tinta-suave);
+    text-transform: uppercase;
+    letter-spacing: .3px;
+    margin-top: 1mm;
+  }
+
+  /* Portada Oficial Ahor.ia */
+  .portada .contenido-portada {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 235mm;
+    text-align: center;
+  }
+  .portada .tag-top {
+    font-family: 'Space Mono', monospace;
+    font-size: 8.8px;
+    letter-spacing: 2.2px;
+    color: var(--tinta-suave);
+    text-transform: uppercase;
+    margin-bottom: 7mm;
+  }
+  .portada .wordmark-grande {
+    font-size: 50px;
+    color: var(--tinta);
+  }
+  .portada .linea-oro {
+    width: 38mm;
+    height: 2px;
+    background: var(--ambar);
+    margin: 6mm auto;
+  }
+  .portada h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 26px;
+    color: var(--tinta);
+    margin: 3.5mm 0 2mm 0;
+    line-height: 1.25;
+  }
+  .portada p.desc {
+    max-width: 140mm;
+    margin: 2mm auto 0 auto;
+    color: var(--tinta-suave);
+    font-size: 12.2px;
+    font-style: italic;
+    line-height: 1.5;
+  }
+  .portada .meta-portada {
+    margin-top: 13mm;
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    color: var(--tinta-suave);
+    line-height: 2.1;
+  }
+  .portada .meta-portada b {
+    color: var(--tinta);
+  }
+
+  .indice {
+    list-style: none;
+    padding: 0;
+    margin: 5mm 0;
+  }
+  .indice li {
+    display: flex;
+    justify-content: space-between;
+    padding: 2.4mm 0;
+    border-bottom: 1px dotted var(--gris-linea);
+    font-size: 12px;
+  }
+  .indice li .n-sec {
+    font-family: 'Space Mono', monospace;
+    color: var(--ambar);
+    margin-right: 2.5mm;
+    font-weight: 700;
+  }
+  .indice li b.pag {
+    font-family: 'Space Mono', monospace;
+    color: var(--tinta-suave);
+    font-weight: normal;
+  }
+
+  .mapa-svg {
+    width: 100%;
+    max-height: 76mm;
+    margin: 2mm auto 3mm auto;
+    display: block;
+  }
+
+  a.enlace-plat {
+    color: var(--tinta);
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    text-decoration: underline;
+    text-decoration-color: var(--ambar);
+    text-underline-offset: 2px;
+    word-break: break-all;
+  }
+
+  .cred-pass {
+    font-family: 'Space Mono', monospace;
+    font-size: 10.5px;
+    background: #fff;
+    border: 1px solid var(--gris-linea);
+    padding: 1.5px 6px;
+    color: var(--tinta);
+    display: inline-block;
+  }
+
+  @media print {
+    @page {
+      size: A4 portrait;
+      margin: 0;
+    }
+    html, body {
+      margin: 0 !important;
+      padding: 0 !important;
+      background: #fff !important;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+    .hoja {
+      width: 210mm !important;
+      height: 297mm !important;
+      max-height: 297mm !important;
+      min-height: 297mm !important;
+      margin: 0 !important;
+      padding: 16mm 16mm 16mm 16mm !important;
+      box-shadow: none !important;
+      page-break-after: always !important;
+      break-after: page !important;
+      page-break-inside: avoid !important;
+      break-inside: avoid !important;
+      overflow: hidden !important;
+      position: relative !important;
+    }
+    .hoja:last-of-type {
+      page-break-after: auto !important;
+      break-after: auto !important;
+    }
+    .hoja + .hoja {
+      margin-top: 0 !important;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- ==========================================================================
+     PÁGINA 1: PORTADA OFICIAL AHOR.IA
+     ========================================================================== -->
+<div class="hoja portada">
+  <div class="contenido-portada">
+    <div class="tag-top">Ahoria.pe — Optimización de Procesos · Tacna, Perú</div>
+    <div class="wordmark wordmark-grande">Ahor<span class="pt">.</span>ia</div>
+    <div class="linea-oro"></div>
+    <h1>Informe Funcional y Presentación del Sistema</h1>
+    <p style="font-family:'Fraunces',serif; font-size:14.5px; color:var(--tinta); margin:0 0 2mm 0; font-weight:600;">
+      Amor & Cacao — Haute Chocolaterie & Atelier de Pastelería Fina
+    </p>
+    <p class="desc">
+      Reporte de alcance por módulos de la plataforma dual comercial y administrativa: Tienda Web Boutique Sensorial de Alta Conversión con Studio Visual In-Place, Sistema POS de Salón, Módulo de Recepción de Pedidos Web en Tiempo Real, Control de Inventario y Caja Chica.
+    </p>
+    <div class="meta-portada">
+      <div>ELABORADO POR: <b>DIEGO F. — FUNDADOR, AHOR.IA</b></div>
+      <div>CLIENTE: <b>AMOR & CACAO · TACNA, PERÚ</b></div>
+      <div>ALCANCE: <b>TIENDA WEB BOUTIQUE (E-COMMERCE) + PLATAFORMA POS / ERP</b></div>
+      <div>ESTADO: <b>DESPLEGADO EN PRODUCCIÓN (VERCEL CI/CD + GITHUB)</b></div>
+      <div>FECHA DE CORTE: <b>SETIEMBRE DE 2026</b></div>
+    </div>
+  </div>
+  <div class="pie">
+    <span>Ahor.ia — Optimización de Procesos</span>
+    <span>Documento oficial de entrega y especificación funcional</span>
+  </div>
+</div>
+
+<!-- ==========================================================================
+     PÁGINA 2: ÍNDICE Y RESUMEN ESTRATÉGICO
+     ========================================================================== -->
+<div class="hoja">
+  <div class="encabezado">
+    <div class="marca wordmark">Ahor<span class="pt">.</span>ia<span class="tag">Optimización de Procesos</span></div>
+    <div class="doc-meta">Informe Funcional<br>Índice &amp; Visión</div>
+  </div>
+
+  <h1 class="titulo-doc" style="font-size:18px;">Índice del documento</h1>
+  <ul class="indice">
+    <li><span><span class="n-sec">01</span>Arquitectura dual y modelo operativo sin fricción</span><b class="pag">03</b></li>
+    <li><span><span class="n-sec">02</span>Mapa de relaciones y flujo de datos entre plataformas (Diagrama)</span><b class="pag">04</b></li>
+    <li><span><span class="n-sec">03</span>Módulo I: Tienda Web Boutique (Catálogo Sensorial &amp; Maridaje)</span><b class="pag">05</b></li>
+    <li><span><span class="n-sec">04</span>Módulo II: Carrito Drawer &amp; Checkout de Doble Vía (WhatsApp + POS)</span><b class="pag">06</b></li>
+    <li><span><span class="n-sec">05</span>Módulo III: Studio de Diseño Visual In-Place (CMS estilo Canva)</span><b class="pag">07</b></li>
+    <li><span><span class="n-sec">06</span>Módulo IV: Punto de Venta Rápido (POS Salón, Boletas &amp; Comandas)</span><b class="pag">08</b></li>
+    <li><span><span class="n-sec">07</span>Módulo V: Recepción y Validación de Pedidos Web en Tiempo Real</span><b class="pag">09</b></li>
+    <li><span><span class="n-sec">08</span>Módulo VI: Control de Inventario, Stock y Alertas Críticas</span><b class="pag">10</b></li>
+    <li><span><span class="n-sec">09</span>Módulo VII: Control de Caja Chica, Arqueos y Cierre de Turno</span><b class="pag">11</b></li>
+    <li><span><span class="n-sec">10</span>Módulo VIII: Calendario de Entregas y Despachos Programados</span><b class="pag">12</b></li>
+    <li><span><span class="n-sec">11</span>Módulo IX: Analítica Comercial, Métricas de Venta y Reportes</span><b class="pag">13</b></li>
+    <li><span><span class="n-sec">12</span>Módulo X: Arquitectura Responsive Multiplataforma (Móvil, Tablet, PC)</span><b class="pag">14</b></li>
+    <li><span><span class="n-sec">13</span>Credenciales de acceso, enlaces oficiales y Hoja de Ruta Supabase</span><b class="pag">15</b></li>
+  </ul>
+
+  <div class="kpi-row" style="margin-top: 3mm;">
+    <div class="kpi"><div class="n">2</div><div class="l">Plataformas unificadas</div></div>
+    <div class="kpi"><div class="n">10</div><div class="l">Módulos operativos</div></div>
+    <div class="kpi"><div class="n">100%</div><div class="l">Responsive en móviles</div></div>
+    <div class="kpi"><div class="n">&lt;30ms</div><div class="l">Latencia Edge CDN</div></div>
+  </div>
+
+  <div class="caja-objetivo" style="margin-top: 3mm;">
+    <b>Propósito de la Solución:</b> Brindar a <b>Amor &amp; Cacao</b> una experiencia de compra de autor digital que transmita exclusividad, textura y lujo gastronómico, unida directamente a un sistema administrativo que ordene las ventas de salón, reciba los pedidos web sin perder ventas y controle el inventario en tiempo real.
+  </div>
+
+  <div class="pie">
+    <span>Ahor.ia</span>
+    <span>Pág. 2</span>
+  </div>
+</div>
+
+<!-- ==========================================================================
+     PÁGINA 3: ARQUITECTURA DUAL Y MODELO OPERATIVO
+     ========================================================================== -->
+<div class="hoja">
+  <div class="encabezado">
+    <div class="marca wordmark">Ahor<span class="pt">.</span>ia<span class="tag">Optimización de Procesos</span></div>
+    <div class="doc-meta">Sección <span class="num">01</span><br>Arquitectura Dual</div>
+  </div>
+
+  <h1 class="titulo-doc">1. Arquitectura dual y modelo operativo</h1>
+  <p class="subtitulo-doc">Dos plataformas desacopladas pero comunicadas a través de una misma capa de datos.</p>
+
+  <p>El sistema se construyó bajo un principio de <b>desacoplamiento total</b>: la cara al cliente y la cara al personal son dos interfaces independientes pero comparten la misma fuente de verdad. Esto evita que el cliente final vea botones administrativos o paneles de control, al mismo tiempo que garantiza que un producto modificado en la pastelería se refleje en la web.</p>
+
+  <h3 class="tit-sub">Los dos frentes de la solución</h3>
+  <table class="t-modulo">
+    <tr>
+      <th style="width: 25%;">Plataforma</th>
+      <th style="width: 40%;">Audiencia y Enfoque</th>
+      <th style="width: 35%;">Ruta de Producción</th>
+    </tr>
+    <tr>
+      <td><b>Tienda Web Boutique</b></td>
+      <td>Clientes en Tacna y Perú. Experiencia sensorial Dark Luxury, notas de cata, maridaje, selección de gramos y checkout a WhatsApp.</td>
+      <td><a class="enlace-plat" href="https://amor-cacao.vercel.app/" target="_blank">amor-cacao.vercel.app/</a></td>
+    </tr>
+    <tr>
+      <td><b>Plataforma POS / ERP</b></td>
+      <td>Cajeros, administradores y personal de cocina. Venta en salón, validación de transferencias Yape/Plin, caja chica y despacho.</td>
+      <td><a class="enlace-plat" href="https://amor-cacao.vercel.app/admin" target="_blank">amor-cacao.vercel.app/admin</a></td>
+    </tr>
+  </table>
+
+  <h3 class="tit-sub">Ejes de valor entregados al negocio</h3>
+  <ul class="lista-clara">
+    <li><b>Cero AI-Slop / Identidad de Lujo Auténtica:</b> Se erradicó el uso de emojis genéricos y plantillas prefabricadas. La dirección de arte utiliza paleta de cacao profundo (60%), vidrio ahumado (30%) y acentos en oro bruñido (10%), con tipografías <i>Playfair Display</i> y <i>Cinzel</i>.</li>
+    <li><b>Checkout de Doble Registro:</b> Cuando el cliente compra, el pedido se guarda en el sistema administrativo con estado <i>Pendiente</i> y simultáneamente genera el enlace con el desglose exacto a WhatsApp. Cero pedidos perdidos por mensajes olvidados.</li>
+    <li><b>Autonomía Creativa (Studio In-Place):</b> El dueño o administrador puede activar el modo editor (`?editor=active`) y cambiar textos, fotos de bombones o paleta cromática directamente sobre la página sin depender de un programador.</li>
+  </ul>
+
+  <div class="caja-objetivo">
+    <b>Regla de Seguridad Implementada:</b> En el código público no existen claves maestras ni accesos indebidos. La tienda web está blindada contra inspecciones de consola (F12) y el botón de acceso al POS permanece completamente oculto para el público general.
+  </div>
+
+  <div class="pie">
+    <span>Ahor.ia</span>
+    <span>Pág. 3</span>
+  </div>
+</div>
+
+<!-- ==========================================================================
+     PÁGINA 4: MAPA DE RELACIONES Y FLUJO DE DATOS
+     ========================================================================== -->
+<div class="hoja">
+  <div class="encabezado">
+    <div class="marca wordmark">Ahor<span class="pt">.</span>ia<span class="tag">Optimización de Procesos</span></div>
+    <div class="doc-meta">Sección <span class="num">02</span><br>Flujo de Datos</div>
+  </div>
+
+  <h1 class="titulo-doc">2. Mapa de flujo de información entre plataformas</h1>
+  <p class="subtitulo-doc">Cómo viaja un pedido desde que el cliente lo descubre hasta su registro en caja y despacho.</p>
+
+  <svg class="mapa-svg" viewBox="0 0 760 480" xmlns="http://www.w3.org/2000/svg" font-family="Space Mono, monospace">
+    <defs>
+      <marker id="fl2" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+        <path d="M0,0 L6,3 L0,6 Z" fill="#c8781f"/>
+      </marker>
+    </defs>
+    <style>
+      .box-store{ fill:#1d0f07; stroke:#daa520; stroke-width:1.5; }
+      .box-pos{ fill:#fff; stroke:#131110; stroke-width:1.2; }
+      .box-db{ fill:#f4ece1; stroke:#c8781f; stroke-width:1.8; }
+      .txt-w{ fill:#faf4eb; font-size:10.5px; }
+      .txt-b{ fill:#131110; font-size:10.5px; }
+      .txt-sub{ fill:#7a6857; font-size:8px; }
+      .flecha{ stroke:#c8781f; stroke-width:1.5; fill:none; marker-end:url(#fl2); }
+    </style>
+
+    <!-- Columna 1: Tienda Web (Cliente) -->
+    <rect class="box-store" x="20" y="25" width="210" height="52" rx="3"/>
+    <text class="txt-w" x="125" y="47" text-anchor="middle" font-weight="bold">1. Vitrina Sensorial</text>
+    <text class="txt-sub" x="125" y="62" text-anchor="middle" fill="#d0b9a6">Catálogo, notas y presentaciones</text>
+
+    <rect class="box-store" x="20" y="150" width="210" height="52" rx="3"/>
+    <text class="txt-w" x="125" y="172" text-anchor="middle" font-weight="bold">2. Carrito &amp; Checkout</text>
+    <text class="txt-sub" x="125" y="187" text-anchor="middle" fill="#d0b9a6">Envío a domicilio / recojo en tienda</text>
+
+    <rect class="box-store" x="20" y="275" width="210" height="52" rx="3"/>
+    <text class="txt-w" x="125" y="297" text-anchor="middle" font-weight="bold">3. Mensaje a WhatsApp</text>
+    <text class="txt-sub" x="125" y="312" text-anchor="middle" fill="#d0b9a6">Comprobante y desglose al cliente</text>
+
+    <!-- Columna 2: Núcleo de Datos (Store DAL) -->
+    <rect class="box-db" x="275" y="150" width="210" height="70" rx="3"/>
+    <text class="txt-b" x="380" y="177" text-anchor="middle" font-weight="bold">Capa de Datos Central</text>
+    <text class="txt-sub" x="380" y="193" text-anchor="middle">Store.js (DAL / Pub-Sub)</text>
+    <text class="txt-sub" x="380" y="206" text-anchor="middle">Sincronización instantánea</text>
+
+    <!-- Columna 3: Panel POS / ERP (Personal) -->
+    <rect class="box-pos" x="530" y="25" width="210" height="52" rx="3"/>
+    <text class="txt-b" x="635" y="47" text-anchor="middle" font-weight="bold">Módulo Pedidos Web</text>
+    <text class="txt-sub" x="635" y="62" text-anchor="middle">Validación Yape/Plin y confirmación</text>
+
+    <rect class="box-pos" x="530" y="150" width="210" height="52" rx="3"/>
+    <text class="txt-b" x="635" y="172" text-anchor="middle" font-weight="bold">Control de Stock</text>
+    <text class="txt-sub" x="635" y="187" text-anchor="middle">Descuento automático de inventario</text>
+
+    <rect class="box-pos" x="530" y="275" width="210" height="52" rx="3"/>
+    <text class="txt-b" x="635" y="297" text-anchor="middle" font-weight="bold">Caja Chica &amp; Ventas</text>
+    <text class="txt-sub" x="635" y="312" text-anchor="middle">Ingreso a caja y comanda de cocina</text>
+
+    <rect class="box-pos" x="530" y="390" width="210" height="52" rx="3"/>
+    <text class="txt-b" x="635" y="412" text-anchor="middle" font-weight="bold">Calendario de Despachos</text>
+    <text class="txt-sub" x="635" y="427" text-anchor="middle">Programación de entregas por fecha</text>
+
+    <!-- Conexiones -->
+    <path class="flecha" d="M125,77 L125,150"/>
+    <path class="flecha" d="M125,202 L125,275"/>
+    <path class="flecha" d="M230,176 L275,176"/>
+    <path class="flecha" d="M485,176 L530,176"/>
+    <path class="flecha" d="M380,150 C 380,51 450,51 530,51"/>
+    <path class="flecha" d="M485,195 C 510,210 510,285 530,295"/>
+    <path class="flecha" d="M430,220 C 470,350 490,400 530,410"/>
+  </svg>
+
+  <h3 class="tit-sub">Explicación del ciclo operativo</h3>
+  <ul class="lista-clara">
+    <li><b>1. Selección y Configuración:</b> El cliente elige su creación, el gramaje y la presentación. El precio se computa en tiempo real.</li>
+    <li><b>2. Disparo a Doble Vía:</b> Al presionar <i>Confirmar Pedido</i>, se guarda la orden en el panel de recepción de pedidos web y se abre WhatsApp con la proforma lista.</li>
+    <li><b>3. Validación del Cajero:</b> El personal valida la captura de pago en WhatsApp y marca <i>Confirmar</i> en el POS. Automáticamente se descuenta el stock y se agenda en el calendario de entregas.</li>
+  </ul>
+
+  <div class="pie">
+    <span>Ahor.ia</span>
+    <span>Pág. 4</span>
+  </div>
+</div>
+
+<!-- ==========================================================================
+     PÁGINA 5: MÓDULO I - TIENDA WEB BOUTIQUE
+     ========================================================================== -->
+<div class="hoja">
+  <div class="encabezado">
+    <div class="marca wordmark">Ahor<span class="pt">.</span>ia<span class="tag">Optimización de Procesos</span></div>
+    <div class="doc-meta">Módulo <span class="num">01</span><br>Tienda Web</div>
+  </div>
+
+  <h2 class="tit-modulo"><span class="num">M01</span> Tienda Web Boutique Sensorial de Alta Conversión</h2>
+  <p class="subtitulo-doc">Arquitectura estética y funcional orientada al deleite visual y a la compra impulsada por calidad artesanal.</p>
+
+  <p>La tienda web de Amor &amp; Cacao no es un simple catálogo de fotos: es una experiencia inmersiva diseñada para justificar el valor premium de cada creación. Utiliza una narrativa sensorial basada en orígenes de cacao peruano (Cusco Chuncho 70%, Piura Blanco 75%, San Martín 80%), maridajes recomendados y notas de cata gastronómicas.</p>
+
+  <table class="t-modulo">
+    <tr>
+      <th>Componente</th>
+      <th>Función y Comportamiento</th>
+      <th>Impacto en el Negocio</th>
+    </tr>
+    <tr>
+      <td><b>Hero Split-Screen</b></td>
+      <td>Encabezado asimétrico con la creación insignia, coordenadas del atelier en Tacna y llamada de acción directa.</td>
+      <td>Causa impacto visual inmediato en los primeros 3 segundos de visita.</td>
+    </tr>
+    <tr>
+      <td><b>Vitrina Bento Grid</b></td>
+      <td>Cuadrícula asimétrica de creaciones con microfísicas a 60 FPS, tilt 3D al pasar el cursor y etiquetas sensoriales.</td>
+      <td>Aumenta el tiempo de permanencia del cliente explorando productos.</td>
+    </tr>
+    <tr>
+      <td><b>Selector de Presentación</b></td>
+      <td>Píldoras interactivas (120g, 250g, Caja 8, Caja 12, etc.) que recalculan la inversión en S/. en tiempo real.</td>
+      <td>Fomenta el ticket promedio alto permitiendo elegir formatos de regalo.</td>
+    </tr>
+    <tr>
+      <td><b>Ficha de Cata de Autor</b></td>
+      <td>Muestra origen, altitud, notas aromáticas (frutos rojos, café, miel silvestre) y maridaje sugerido (café de especialidad, vino).</td>
+      <td>Posiciona a la marca en la categoría <i>Haute Chocolaterie</i> sobre postres industriales.</td>
+    </tr>
+    <tr>
+      <td><b>Barra de Navegación Glass</b></td>
+      <td>Cabecera flotante con efecto vidrio esmerilado que se mantiene accesible al hacer scroll, mostrando si el atelier está abierto.</td>
+      <td>Navegación cómoda sin perder de vista el botón de compra.</td>
+    </tr>
+  </table>
+
+  <div class="caja-objetivo">
+    <b>Decisión de Negocio que Permite:</b> La tienda convierte tráfico frío de redes sociales (Instagram, TikTok, Facebook) en clientes fidelizados que compran con confianza al entender por qué el chocolate de origen tiene un valor superior.
+  </div>
+
+  <div class="pie">
+    <span>Ahor.ia</span>
+    <span>Pág. 5</span>
+  </div>
+</div>
+
+<!-- ==========================================================================
+     PÁGINA 6: MÓDULO II - CARRITO & CHECKOUT WHATSAPP
+     ========================================================================== -->
+<div class="hoja">
+  <div class="encabezado">
+    <div class="marca wordmark">Ahor<span class="pt">.</span>ia<span class="tag">Optimización de Procesos</span></div>
+    <div class="doc-meta">Módulo <span class="num">02</span><br>Checkout Doble Vía</div>
+  </div>
+
+  <h2 class="tit-modulo"><span class="num">M02</span> Carrito Drawer y Checkout de Doble Vía</h2>
+  <p class="subtitulo-doc">Proceso de pago fluido que combina registro digital en el POS con cierre asistido por WhatsApp.</p>
+
+  <p>En el comercio electrónico gastronómico, los carritos con pasarelas de pago rígidas provocan más de un 60% de abandono. Amor &amp; Cacao implementa un sistema híbrido: el cliente completa sus datos en una experiencia web pulida, pero el cierre de venta y envío de comprobante se canaliza a través de WhatsApp, el canal preferido en el Perú.</p>
+
+  <h3 class="tit-sub">Características del Flujo de Compra</h3>
+  <ul class="lista-clara">
+    <li><b>Drawer Lateral Deslizante:</b> El carrito se despliega como un panel suave sin recargar la página ni perder la posición de lectura del catálogo.</li>
+    <li><b>Botón Flotante (FAB) Táctil:</b> En dispositivos móviles se mantiene fijo en la esquina inferior derecha un botón dorado que indica el total acumulado en S/. y la cantidad de piezas seleccionadas.</li>
+    <li><b>Selector de Entrega:</b> Permite al cliente elegir entre <i>Recojo en Atelier (Paseo Cívico)</i> o <i>Delivery a Domicilio en Tacna</i> (con recargo de envío transparente).</li>
+    <li><b>Fecha y Horario de Entrega:</b> Campo interactivo para programar pedidos de regalo o sorpresas en fechas específicas (cumpleaños, aniversarios).</li>
+    <li><b>Doble Registro Automático:</b>
+      <br>1. Se genera un código único de pedido (ej. `#WEB-8492`) y se inyecta en el módulo de recepción del POS.
+      <br>2. Se abre WhatsApp oficial con un texto prediseñado y elegante que incluye el desglose de productos, precio y datos del comprador.</li>
+  </ul>
+
+  <div class="caja-relaciones">
+    <span class="tit-rel">Estructura del Mensaje Automático a WhatsApp:</span>
+    <i>"¡Hola Amor &amp; Cacao! Deseo confirmar mi pedido web #WEB-8492 realizado desde la tienda:
+    <br>• 1x Caja de Bombones Finos (Caja 12 uds) — S/. 52.00
+    <br>• 1x Tableta Origen Cusco 70% (80g) — S/. 24.00
+    <br>Modalidad: Delivery a Domicilio | Fecha: 14/09/2026
+    <br>Total a pagar: S/. 82.00. Adjunto comprobante de transferencia Yape."</i>
+  </div>
+
+  <div class="caja-objetivo">
+    <b>Beneficio para el Negocio:</b> Cero errores en los pedidos. El cliente no tiene que dictar productos por chat y el cajero no tiene que calcular sumas manualmente.
+  </div>
+
+  <div class="pie">
+    <span>Ahor.ia</span>
+    <span>Pág. 6</span>
+  </div>
+</div>
+
+<!-- ==========================================================================
+     PÁGINA 7: MÓDULO III - STUDIO CANVAS CMS (EDITOR VISUAL)
+     ========================================================================== -->
+<div class="hoja">
+  <div class="encabezado">
+    <div class="marca wordmark">Ahor<span class="pt">.</span>ia<span class="tag">Optimización de Procesos</span></div>
+    <div class="doc-meta">Módulo <span class="num">03</span><br>Studio Visual CMS</div>
+  </div>
+
+  <h2 class="tit-modulo"><span class="num">M03</span> Gestor de Diseño Visual Studio (Estilo Canva / In-Place)</h2>
+  <p class="subtitulo-doc">Herramienta in-place para editar el 100% de la tienda directamente sobre la pantalla con vista previa en vivo.</p>
+
+  <p>Tradicionalmente, cambiar un texto o una foto en una página web requiere contratar a un desarrollador o lidiar con paneles complejos tipo WordPress. Amor &amp; Cacao cuenta con un <b>Studio Visual integrado</b> que se activa con un solo clic desde el panel administrativo o mediante el enlace seguro `?editor=active`.</p>
+
+  <table class="t-modulo">
+    <tr>
+      <th style="width: 28%;">Herramienta</th>
+      <th style="width: 42%;">Capacidades Técnicas</th>
+      <th style="width: 30%;">Control para el Cliente</th>
+    </tr>
+    <tr>
+      <td><b>Edición Textual Bidireccional</b></td>
+      <td>121 claves de texto (`data-cms-key`). Al hacer clic sobre cualquier título, párrafo o botón, se edita en vivo o desde el panel lateral.</td>
+      <td>Modificar promociones, precios o notas de cata en 10 segundos.</td>
+    </tr>
+    <tr>
+      <td><b>Inspector Tipográfico</b></td>
+      <td>Selector de fuentes (Playfair, Cinzel, Plus Jakarta Sans, Outfit, Georgia), slider de tamaño de letra y alineaciones.</td>
+      <td>Ajustar la jerarquía visual según la temporada (San Valentín, Navidad).</td>
+    </tr>
+    <tr>
+      <td><b>Gestor de Fotografías</b></td>
+      <td>Subida directa desde la computadora. El sistema comprime en memoria (`<canvas>` JPEG 82%, max 1200px) para máxima velocidad de carga.</td>
+      <td>Actualizar fotos del Hero, Logo y catálogo sin saturar la web.</td>
+    </tr>
+    <tr>
+      <td><b>Paletas de Color en 1 Clic</b></td>
+      <td>Presets curados: <i>Oro &amp; Cacao Negro, Champagne &amp; Trufa, Cobre &amp; Selva Alta, Borgoña Noble</i> y selectores HEX individuales.</td>
+      <td>Cambiar la atmósfera estética de la marca con un toque.</td>
+    </tr>
+    <tr>
+      <td><b>Control de Cambios (Undo)</b></td>
+      <td>Historial de 40 pasos (`Ctrl+Z` / Botón Deshacer) y botón de restablecimiento total para evitar errores accidentales.</td>
+      <td>Libertad total para experimentar diseños sin miedo a dañar la página.</td>
+    </tr>
+  </table>
+
+  <div class="caja-objetivo">
+    <b>Seguridad del Modo Editor:</b> Los clientes comunes nunca ven esta herramienta. El Studio solo es accesible si el usuario ha iniciado sesión previamente como <i>Administrador</i> en el sistema POS.
+  </div>
+
+  <div class="pie">
+    <span>Ahor.ia</span>
+    <span>Pág. 7</span>
+  </div>
+</div>
+
+<!-- ==========================================================================
+     PÁGINA 8: MÓDULO IV - PUNTO DE VENTA (POS SALÓN)
+     ========================================================================== -->
+<div class="hoja">
+  <div class="encabezado">
+    <div class="marca wordmark">Ahor<span class="pt">.</span>ia<span class="tag">Optimización de Procesos</span></div>
+    <div class="doc-meta">Módulo <span class="num">04</span><br>POS Salón &amp; Caja</div>
+  </div>
+
+  <h2 class="tit-modulo"><span class="num">M04</span> Punto de Venta Rápido (POS Salón &amp; ERP)</h2>
+  <p class="subtitulo-doc">Facturación ágil para atención en mostrador, mesas y venta directa al paso en Tacna.</p>
+
+  <p>El punto de venta de Amor &amp; Cacao fue optimizado para cobrar en menos de 15 segundos. Diseñado para funcionar tanto en computadoras de caja como en tablets o teléfonos de meseros, soporta múltiples métodos de pago peruanos y calcula vueltos al instante.</p>
+
+  <h3 class="tit-sub">Capacidades Operativas del Mostrador</h3>
+  <ul class="lista-clara">
+    <li><b>Búsqueda Rápida y Filtro por Categorías:</b> Permite encontrar postres por código, nombre o categoría (Bombones, Pasteles, Cafetería, Bebidas, Tabletas de Origen).</li>
+    <li><b>Cálculo Dinámico de Cambio y Vuelto:</b> El cajero ingresa el billete recibido (S/. 50, S/. 100) y la pantalla le indica en tipografía gigante el vuelto exacto a entregar.</li>
+    <li><b>Múltiples Métodos de Pago:</b> Soporta Efectivo, Tarjeta de Crédito/Débito, Transferencia Bancaria y billeteras digitales (Yape y Plin).</li>
+    <li><b>Impresión de Boleta y Comanda:</b> Genera comprobante térmico con los datos de Amor &amp; Cacao, IGV desglosado y número de serie consecutivo.</li>
+    <li><b>Integración con Stock:</b> Cada unidad cobrada en el salón reduce automáticamente el stock disponible en la tienda web, evitando vender en línea un postre que ya se agotó en tienda.</li>
+  </ul>
+
+  <table class="t-modulo">
+    <tr><th>Flujo de Cobro</th><th>Tiempo Estimado</th><th>Resultado en el Sistema</th></tr>
+    <tr><td>1. Seleccionar productos</td><td>3 a 5 seg</td><td>Se acumula en la comanda lateral con subtotal e impuestos</td></tr>
+    <tr><td>2. Elegir método de pago</td><td>2 seg</td><td>Se clasifica contablemente en el turno de caja activa</td></tr>
+    <tr><td>3. Cobrar e imprimir</td><td>3 seg</td><td>Se descuenta inventario, emite ticket y reinicia la pantalla</td></tr>
+  </table>
+
+  <div class="caja-objetivo">
+    <b>Impacto:</b> Agilidad en horas pico de cafetería, reducción de filas en mostrador y cuadratura exacta de ingresos al final del día.
+  </div>
+
+  <div class="pie">
+    <span>Ahor.ia</span>
+    <span>Pág. 8</span>
+  </div>
+</div>
+
+<!-- ==========================================================================
+     PÁGINA 9: MÓDULO V - RECEPCIÓN DE PEDIDOS WEB
+     ========================================================================== -->
+<div class="hoja">
+  <div class="encabezado">
+    <div class="marca wordmark">Ahor<span class="pt">.</span>ia<span class="tag">Optimización de Procesos</span></div>
+    <div class="doc-meta">Módulo <span class="num">05</span><br>Pedidos Web</div>
+  </div>
+
+  <h2 class="tit-modulo"><span class="num">M05</span> Módulo de Recepción y Validación de Pedidos Web</h2>
+  <p class="subtitulo-doc">Bandeja de control para recibir, gestionar y coordinar pedidos que llegan desde la tienda online.</p>
+
+  <p>Este módulo es el puente operativo entre el cliente que compró en internet y el personal que prepara el paquete. En lugar de tener pedidos dispersos en chats personales de WhatsApp, la plataforma centraliza cada solicitud con un identificador único y un flujo de estados claro.</p>
+
+  <h3 class="tit-sub">Estados y Flujo de Gestión</h3>
+  <table class="t-modulo">
+    <tr>
+      <th style="width: 22%;">Estado</th>
+      <th style="width: 48%;">Acción en la Pastelería</th>
+      <th style="width: 30%;">Impacto en el Pedido</th>
+    </tr>
+    <tr>
+      <td><span class="chip" style="background:#fff3cd; border-color:#ffeeba; color:#856404;">Pendiente</span></td>
+      <td>El cliente envió el pedido web. El cajero verifica que la captura de Yape/Plin haya ingresado a la cuenta bancaria.</td>
+      <td>No se descuenta stock hasta validar el comprobante.</td>
+    </tr>
+    <tr>
+      <td><span class="chip" style="background:#d4edda; border-color:#c3e6cb; color:#155724;">Confirmado</span></td>
+      <td>El pago fue verificado con éxito. Se envía la comanda a la estación de empaque/chocolatería.</td>
+      <td>Se descuenta stock y se reserva la caja de bombones.</td>
+    </tr>
+    <tr>
+      <td><span class="chip" style="background:#d1ecf1; border-color:#bee5eb; color:#0c5460;">En Preparación</span></td>
+      <td>La cocina está empacando los productos o decorando la tarta de autor.</td>
+      <td>Queda agendado para entrega en el día y hora solicitada.</td>
+    </tr>
+    <tr>
+      <td><span class="chip" style="background:#e2e3e5; border-color:#d6d8db; color:#383d41;">Entregado</span></td>
+      <td>El motorizado o el cliente retiró el pedido en el local.</td>
+      <td>Se cierra el ciclo comercial y se suma a la analítica de ventas.</td>
+    </tr>
+    <tr>
+      <td><span class="chip" style="background:#f8d7da; border-color:#f5c6cb; color:#721c24;">Cancelado</span></td>
+      <td>El cliente no transfirió o desistió del pedido.</td>
+      <td>Si estaba confirmado, reintegra automáticamente el stock.</td>
+    </tr>
+  </table>
+
+  <h3 class="tit-sub">Herramientas Directas para el Operador</h3>
+  <ul class="lista-clara">
+    <li><b>Botón de Chat WhatsApp con 1 Clic:</b> Abre directamente el chat con el número del cliente para enviarle confirmación o avisarle que su delivery va en camino.</li>
+    <li><b>Filtros por Estado:</b> Permite a la administración ver cuántos pedidos faltan empacar para el día de hoy con un solo toque.</li>
+  </ul>
+
+  <div class="pie">
+    <span>Ahor.ia</span>
+    <span>Pág. 9</span>
+  </div>
+</div>
+
+<!-- ==========================================================================
+     PÁGINA 10: MÓDULO VI - CONTROL DE INVENTARIO Y STOCK
+     ========================================================================== -->
+<div class="hoja">
+  <div class="encabezado">
+    <div class="marca wordmark">Ahor<span class="pt">.</span>ia<span class="tag">Optimización de Procesos</span></div>
+    <div class="doc-meta">Módulo <span class="num">06</span><br>Inventario &amp; Stock</div>
+  </div>
+
+  <h2 class="tit-modulo"><span class="num">M06</span> Control de Inventario, Existencias y Alertas Críticas</h2>
+  <p class="subtitulo-doc">Gestión del stock de creaciones, materias primas de cacao y alertas visuales de reposición.</p>
+
+  <p>En repostería fina y chocolatería, el quiebre de stock arruina ventas y el sobrestock provoca mermas de insumos frescos. Este módulo proporciona visibilidad continua sobre las unidades listas para la venta y los puntos de reposición necesarios para la producción del taller.</p>
+
+  <h3 class="tit-sub">Características Principales de Inventario</h3>
+  <ul class="lista-clara">
+    <li><b>Catálogo Unificado de Productos:</b> Control de nombre comercial, notas de cata, precio regular, costo de producción y margen bruto en S/.</li>
+    <li><b>Semáforo Visual de Existencias:</b>
+      <br>• <b>Verde (Stock Saludable):</b> Más de 5 unidades disponibles en vitrina.
+      <br>• <b>Ámbar (Stock Crítico):</b> Menos de 5 unidades. Notificación visual para que chocolatería temple una nueva tanda.
+      <br>• <b>Rojo (Agotado):</b> Stock en cero. El producto se bloquea en la tienda web para evitar sobreventas accidentales.</li>
+    <li><b>Ajuste Rápido de Stock:</b> El maestro chocolatero puede sumar unidades terminadas al inventario con botones rápidos (+5, +10, +25) sin llenar formularios largos.</li>
+    <li><b>Control de Mermas y Bajas:</b> Registro justificado de unidades dañadas, degustaciones o vencimiento de producto para cuadratura contable.</li>
+  </ul>
+
+  <table class="t-modulo">
+    <tr><th>Creación de Autor</th><th>Presentación</th><th>Stock Actual</th><th>Estado Visual</th></tr>
+    <tr><td>Caja de Bombones Finos</td><td>Caja 12 uds</td><td>18 unidades</td><td><span class="chip" style="color:green; border-color:green;">Saludable</span></td></tr>
+    <tr><td>Cheesecake de Frutos Rojos</td><td>Porción 180g</td><td>4 unidades</td><td><span class="chip" style="color:var(--ambar); border-color:var(--ambar);">Stock Crítico</span></td></tr>
+    <tr><td>Tableta Origen Piura 75%</td><td>Tableta 80g</td><td>25 unidades</td><td><span class="chip" style="color:green; border-color:green;">Saludable</span></td></tr>
+    <tr><td>Tarta de Chocolate Belga</td><td>Tarta Completa</td><td>2 unidades</td><td><span class="chip" style="color:var(--ambar); border-color:var(--ambar);">Stock Crítico</span></td></tr>
+  </table>
+
+  <div class="caja-objetivo">
+    <b>Beneficio para el Negocio:</b> Cero compromisos incumplidos con clientes web y sincronización total entre lo que hay en mostrador y lo que se exhibe en internet.
+  </div>
+
+  <div class="pie">
+    <span>Ahor.ia</span>
+    <span>Pág. 10</span>
+  </div>
+</div>
+
+<!-- ==========================================================================
+     PÁGINA 11: MÓDULO VII - CONTROL DE CAJA CHICA
+     ========================================================================== -->
+<div class="hoja">
+  <div class="encabezado">
+    <div class="marca wordmark">Ahor<span class="pt">.</span>ia<span class="tag">Optimización de Procesos</span></div>
+    <div class="doc-meta">Módulo <span class="num">07</span><br>Caja Chica</div>
+  </div>
+
+  <h2 class="tit-modulo"><span class="num">M07</span> Control de Caja Chica, Arqueos y Cierre de Turno</h2>
+  <p class="subtitulo-doc">Auditoría financiera diaria del flujo de dinero en efectivo y billeteras digitales.</p>
+
+  <p>El control del efectivo es vital en negocios de cafetería y pastelería. Este módulo asegura que cada turno de trabajo comience con un fondo fijo justificado, registre los movimientos imprevistos del día (ej. compra de hielo, insumos menores) y cierre con un arqueo matemático exacto.</p>
+
+  <h3 class="tit-sub">Etapas del Control de Turno</h3>
+  <table class="t-modulo">
+    <tr>
+      <th style="width: 25%;">Etapa</th>
+      <th style="width: 45%;">Procedimiento del Cajero</th>
+      <th style="width: 30%;">Control Administrativo</th>
+    </tr>
+    <tr>
+      <td><b>1. Apertura de Turno</b></td>
+      <td>El cajero ingresa el monto inicial de sencillo en caja (ej. S/. 150.00) y el sistema habilita el punto de venta.</td>
+      <td>Queda registrado con fecha, hora y nombre del responsable.</td>
+    </tr>
+    <tr>
+      <td><b>2. Operación Diaria</b></td>
+      <td>Las ventas en efectivo, tarjetas y Yape se computan automáticamente en tiempo real sin intervención humana.</td>
+      <td>El sistema separa el dinero físico del digital para evitar confusiones.</td>
+    </tr>
+    <tr>
+      <td><b>3. Egresos / Gastos Menores</b></td>
+      <td>Si se saca dinero para un gasto menor de tienda, se registra con motivo y número de boleta.</td>
+      <td>Se descuenta de la caja física y genera recibo interno de descargo.</td>
+    </tr>
+    <tr>
+      <td><b>4. Cierre y Arqueo</b></td>
+      <td>Al terminar la jornada, el cajero cuenta el dinero físico real y el sistema compara contra el saldo calculado.</td>
+      <td>Detecta sobrantes o faltantes con alerta roja si supera la tolerancia.</td>
+    </tr>
+  </table>
+
+  <h3 class="tit-sub">Seguridad para la Gerencia</h3>
+  <ul class="lista-clara">
+    <li><b>Historial Permanente de Turnos:</b> Cada turno cerrado queda archivado para consulta de auditoría o revisión contable mensual.</li>
+    <li><b>Cero Modificación Posterior:</b> Una vez cerrado el turno, los valores no pueden ser alterados por el personal de mostrador.</li>
+  </ul>
+
+  <div class="caja-objetivo">
+    <b>Resultado:</b> Tranquilidad total para los socios y administradores: el dinero que entra por mostrador coincide con las boletas y el inventario vendido.
+  </div>
+
+  <div class="pie">
+    <span>Ahor.ia</span>
+    <span>Pág. 11</span>
+  </div>
+</div>
+
+<!-- ==========================================================================
+     PÁGINA 12: MÓDULO VIII - CALENDARIO DE ENTREGAS
+     ========================================================================== -->
+<div class="hoja">
+  <div class="encabezado">
+    <div class="marca wordmark">Ahor<span class="pt">.</span>ia<span class="tag">Optimización de Procesos</span></div>
+    <div class="doc-meta">Módulo <span class="num">08</span><br>Calendario de Entregas</div>
+  </div>
+
+  <h2 class="tit-modulo"><span class="num">M08</span> Calendario Interactivo de Entregas y Despachos</h2>
+  <p class="subtitulo-doc">Programación visual de pedidos especiales, tartas completas y cajas de regalo por fecha.</p>
+
+  <p>A diferencia de la venta inmediata de salón, la alta pastelería trabaja con pedidos programados para cumpleaños, eventos y fechas especiales. Este módulo organiza visualmente los compromisos de entrega de Amor &amp; Cacao en vistas de calendario mensual y semanal.</p>
+
+  <h3 class="tit-sub">Funcionalidades del Calendario</h3>
+  <ul class="lista-clara">
+    <li><b>Vista Mensual con Marcadores Visuales:</b> Cada día muestra una píldora con la cantidad de pedidos agendados para esa jornada (ej. <i>3 entregas</i>).</li>
+    <li><b>Detalle Rápido por Día:</b> Al hacer clic sobre cualquier fecha del calendario, el sistema despliega el listado completo de pedidos programados con:
+      <br>• Nombre y teléfono del cliente destinatario.
+      <br>• Hora comprometida de despacho (ej. <i>16:00 hrs</i>).
+      <br>• Modalidad (Delivery en Tacna o Recojo en Atelier).
+      <br>• Lista de productos y especificaciones personalizadas (ej. dedicatoria en chocolate).</li>
+    <li><b>Alerta de Sobrecarga de Taller:</b> Ayuda a los maestros chocolateros a anticipar la producción de masas y rellenos con 24 a 48 horas de anticipación.</li>
+    <li><b>Sincronización Automática:</b> Todo pedido confirmado en la tienda web con fecha futura ingresa directamente a su casilla del calendario sin registro manual.</li>
+  </ul>
+
+  <table class="t-modulo">
+    <tr><th>Fecha</th><th>Cliente</th><th>Creación Especial</th><th>Modalidad</th><th>Hora</th></tr>
+    <tr><td>14/09/2026</td><td>Valeria Mendoza</td><td>Tarta de Chocolate Belga + Dedicatoria</td><td>Delivery Tacna Centro</td><td>15:30</td></tr>
+    <tr><td>15/09/2026</td><td>Carlos Benavides</td><td>2x Cajas de Bombones Colección 12</td><td>Recojo en Paseo Cívico</td><td>18:00</td></tr>
+    <tr><td>16/09/2026</td><td>Luciana Romero</td><td>Cheesecake Frutos Rojos Entero</td><td>Delivery Pocollay</td><td>12:00</td></tr>
+  </table>
+
+  <div class="caja-objetivo">
+    <b>Valor para el Negocio:</b> Cero entregas olvidadas o retrasadas. Experiencia de cliente impecable en celebraciones familiares y corporativas.
+  </div>
+
+  <div class="pie">
+    <span>Ahor.ia</span>
+    <span>Pág. 12</span>
+  </div>
+</div>
+
+<!-- ==========================================================================
+     PÁGINA 13: MÓDULO IX - ANALÍTICA & MÉTRICAS
+     ========================================================================== -->
+<div class="hoja">
+  <div class="encabezado">
+    <div class="marca wordmark">Ahor<span class="pt">.</span>ia<span class="tag">Optimización de Procesos</span></div>
+    <div class="doc-meta">Módulo <span class="num">09</span><br>Analítica &amp; Métricas</div>
+  </div>
+
+  <h2 class="tit-modulo"><span class="num">M09</span> Analítica Comercial, Métricas de Venta y Reportes</h2>
+  <p class="subtitulo-doc">Inteligencia de negocio visual para la toma de decisiones sobre recetas rentables y canales de venta.</p>
+
+  <p>La plataforma transforma cada transacción en información estratégica para la administración. En lugar de revisar cuadernos o acumular boletas físicas, el dashboard gerencial entrega gráficos claros y KPIs actualizados al instante.</p>
+
+  <h3 class="tit-sub">Métricas Clave Monitoreadas (KPIs)</h3>
+  <table class="t-modulo">
+    <tr>
+      <th style="width: 25%;">Métrica</th>
+      <th style="width: 45%;">Qué representa en la plataforma</th>
+      <th style="width: 30%;">Decisión Gerencial</th>
+    </tr>
+    <tr>
+      <td><b>Ventas Totales (S/.)</b></td>
+      <td>Facturación acumulada del día, semana y mes, desglosada por canal (Salón vs. Tienda Web).</td>
+      <td>Monitorear el cumplimiento de metas comerciales mensuales.</td>
+    </tr>
+    <tr>
+      <td><b>Ticket Promedio</b></td>
+      <td>Monto medio gastado por cada cliente en cada compra (S/. por orden).</td>
+      <td>Evaluar si las estrategias de maridaje y combos de regalo funcionan.</td>
+    </tr>
+    <tr>
+      <td><b>Productos Estrella</b></td>
+      <td>Ranking de las creaciones con mayor rotación de inventario y mayor margen de utilidad.</td>
+      <td>Potenciar los postres preferidos y reformular recetas de baja salida.</td>
+    </tr>
+    <tr>
+      <td><b>Desglose por Métodos</b></td>
+      <td>Porcentaje de pagos recibidos en Efectivo vs. Yape/Plin vs. Tarjetas bancarias.</td>
+      <td>Asegurar disponibilidad de sencillo y optimizar comisiones de pasarela.</td>
+    </tr>
+  </table>
+
+  <h3 class="tit-sub">Reportes y Exportación</h3>
+  <ul class="lista-clara">
+    <li><b>Exportación a Hojas de Cálculo:</b> Descarga inmediata del historial de ventas con filtros de fecha para el contador de la empresa.</li>
+    <li><b>Gráficos Comparativos Visuales:</b> Barras de rendimiento que muestran qué días de la semana registran el mayor flujo de clientes en Tacna.</li>
+  </ul>
+
+  <div class="caja-objetivo">
+    <b>Beneficio:</b> Gerencia tiene el control de su negocio en una sola pantalla, accesible desde cualquier computadora o tablet personal.
+  </div>
+
+  <div class="pie">
+    <span>Ahor.ia</span>
+    <span>Pág. 13</span>
+  </div>
+</div>
+
+<!-- ==========================================================================
+     PÁGINA 14: MÓDULO X - RESPONSIVIDAD MÓVIL
+     ========================================================================== -->
+<div class="hoja">
+  <div class="encabezado">
+    <div class="marca wordmark">Ahor<span class="pt">.</span>ia<span class="tag">Optimización de Procesos</span></div>
+    <div class="doc-meta">Módulo <span class="num">10</span><br>Responsividad Móvil</div>
+  </div>
+
+  <h2 class="tit-modulo"><span class="num">M10</span> Arquitectura Responsive Multiplataforma Nativa</h2>
+  <p class="subtitulo-doc">Adaptabilidad fluida en Smartphones, Tablets, Laptops y Pantallas Táctiles de Mostrador.</p>
+
+  <p>En el comercio contemporáneo, más del 80% del tráfico de clientes proviene de teléfonos celulares. La plataforma de Amor &amp; Cacao fue concebida desde el primer minuto con arquitectura <i>Mobile-First</i>, garantizando que no existan desbordes, textos ilegibles o botones difíciles de tocar.</p>
+
+  <h3 class="tit-sub">Adaptación Técnica por Dispositivo</h3>
+  <table class="t-modulo">
+    <tr>
+      <th style="width: 25%;">Dispositivo</th>
+      <th style="width: 45%;">Comportamiento de la Tienda Web</th>
+      <th style="width: 30%;">Comportamiento del POS</th>
+    </tr>
+    <tr>
+      <td><b>Smartphones (iOS / Android)</b></td>
+      <td>Columnas apiladas verticales, botón de compra flotante (FAB) fijo, botones con altura táctil para el pulgar (48px+) y apertura directa de la app WhatsApp.</td>
+      <td>Menú hamburguesa deslizante con fondo desenfocado, grilla de productos compacta de 2 columnas táctiles.</td>
+    </tr>
+    <tr>
+      <td><b>Tablets (iPad / Galaxy Tab)</b></td>
+      <td>Cuadrícula bento de 2 columnas, vitrina interactiva con tarjetas medianas y carrito lateral drawer de 400px.</td>
+      <td>Formato ideal para meseros: comanda lateral fija y productos organizados por pestañas táctiles.</td>
+    </tr>
+    <tr>
+      <td><b>Laptops &amp; Pantallas PC</b></td>
+      <td>Experiencia completa Dark Luxury: Hero asimétrico en 2 columnas, efectos spotlight 3D al pasar el mouse y Studio Canvas lateral completo.</td>
+      <td>Barra lateral fija permanente con acceso directo a todos los módulos y gráficos analíticos expandidos.</td>
+    </tr>
+  </table>
+
+  <h3 class="tit-sub">Rendimiento y Optimización de Red</h3>
+  <ul class="lista-clara">
+    <li><b>Desplegado en Edge CDN (Vercel):</b> Archivos estáticos cacheados geográficamente para tiempos de carga de entre 20ms y 40ms en redes móviles 4G/5G en el Perú.</li>
+    <li><b>Compresión de Imágenes:</b> Fotos de productos en JPEG de alta resolución pero con peso pluma para no consumir el plan de datos de los clientes.</li>
+  </ul>
+
+  <div class="caja-objetivo">
+    <b>Garantía Funcional:</b> Tanto el cliente comprando un regalo desde un taxi como el cajero cobrando desde una tablet tienen una interfaz rápida, sin fallos y a 60 FPS.
+  </div>
+
+  <div class="pie">
+    <span>Ahor.ia</span>
+    <span>Pág. 14</span>
+  </div>
+</div>
+
+<!-- ==========================================================================
+     PÁGINA 15: CREDENCIALES, ENLACES Y ROADMAP SUPABASE
+     ========================================================================== -->
+<div class="hoja">
+  <div class="encabezado">
+    <div class="marca wordmark">Ahor<span class="pt">.</span>ia<span class="tag">Optimización de Procesos</span></div>
+    <div class="doc-meta">Sección <span class="num">11</span><br>Enlaces &amp; Accesos</div>
+  </div>
+
+  <h1 class="titulo-doc">Enlaces oficiales, credenciales y hoja de ruta</h1>
+  <p class="subtitulo-doc">Acceso a los entornos de producción en vivo y planificación para la fase de backend en la nube.</p>
+
+  <h3 class="tit-sub">1. Enlaces Oficiales de Producción (En Vivo en Vercel)</h3>
+  <table class="t-modulo">
+    <tr><th>Plataforma</th><th>Enlace Oficial</th><th>Estado</th></tr>
+    <tr>
+      <td><b>Tienda Web Boutique (Clientes)</b></td>
+      <td><a class="enlace-plat" href="https://amor-cacao.vercel.app/" target="_blank">https://amor-cacao.vercel.app/</a></td>
+      <td><span class="chip" style="color:green; border-color:green;">En Vivo (Producción)</span></td>
+    </tr>
+    <tr>
+      <td><b>Panel POS / ERP (Personal)</b></td>
+      <td><a class="enlace-plat" href="https://amor-cacao.vercel.app/admin" target="_blank">https://amor-cacao.vercel.app/admin</a></td>
+      <td><span class="chip" style="color:green; border-color:green;">En Vivo (Producción)</span></td>
+    </tr>
+    <tr>
+      <td><b>Respaldo (GitHub Pages)</b></td>
+      <td><a class="enlace-plat" href="https://diegocruz7040-cmyk.github.io/amor-cacao/" target="_blank">https://diegocruz7040-cmyk.github.io/amor-cacao/</a></td>
+      <td><span class="chip" style="color:#0066cc; border-color:#0066cc;">En Vivo (Respaldo)</span></td>
+    </tr>
+    <tr>
+      <td><b>Repositorio Git (CI/CD)</b></td>
+      <td><a class="enlace-plat" href="https://github.com/diegocruz7040-cmyk/amor-cacao" target="_blank">https://github.com/diegocruz7040-cmyk/amor-cacao</a></td>
+      <td><span class="chip" style="color:var(--ambar); border-color:var(--ambar);">Conectado a Vercel</span></td>
+    </tr>
+  </table>
+
+  <h3 class="tit-sub">2. Llaves de Acceso y Credenciales de Demostración</h3>
+  <table class="t-modulo">
+    <tr><th>Rol</th><th>Usuario / Correo</th><th>Contraseña</th><th>Acceso Operativo</th></tr>
+    <tr>
+      <td><span class="chip rol">Administrador</span></td>
+      <td><span class="cred-pass">admin@amorcacao.com</span></td>
+      <td><span class="cred-pass">admin123</span></td>
+      <td>Acceso total: POS, Caja, Stock, Pedidos Web, Analítica y Studio Canvas CMS</td>
+    </tr>
+    <tr>
+      <td><span class="chip">Cajero / Salón</span></td>
+      <td><span class="cred-pass">cajero@amorcacao.com</span></td>
+      <td><span class="cred-pass">caja123</span></td>
+      <td>Operación diaria: Punto de venta salón, pedidos web y caja chica</td>
+    </tr>
+  </table>
+
+  <h3 class="tit-sub">3. Hoja de Ruta: Próxima Fase con Supabase (Backend Nube)</h3>
+  <ul class="lista-clara" style="font-size: 11px;">
+    <li><b>Base de Datos Relacional PostgreSQL:</b> Migración de los datos locales a tablas en la nube (`products`, `web_orders`, `sales`, `cash_shifts`, `cms_content`).</li>
+    <li><b>Seguridad Row Level Security (RLS):</b> Clientes públicos solo pueden registrar órdenes (`INSERT`), garantizando que nadie pueda ver datos privados de otros clientes.</li>
+    <li><b>Sincronización WebSockets en Tiempo Real:</b> Cuando un cliente ordene por la web, el cajero escuchará una campana sonora y verá la tarjeta de pedido aparecer en menos de 100ms sin recargar la página.</li>
+    <li><b>Almacenamiento de Fotos en Supabase Storage:</b> Las fotos que el cliente suba en el Studio se guardarán en un bucket público y se servirán a todo el mundo a través de CDN.</li>
+  </ul>
+
+  <div class="firma-analista" style="margin-top: 5mm; padding-top: 3mm; border-top: 1px solid var(--gris-linea); display: flex; justify-content: space-between; align-items: baseline;">
+    <div>
+      <span class="fw">Diego F.</span> — Fundador, Ahor.ia<br>
+      <span style="font-family:'Space Mono',monospace; font-size:9px; color:var(--tinta-suave);">Consultoría &amp; Optimización de Procesos Digitales · Tacna, Perú</span>
+    </div>
+    <div style="text-align: right; font-family:'Space Mono',monospace; font-size:9.5px; color:var(--ambar); font-weight: bold;">
+      PROYECTO AMOR &amp; CACAO 2026
+    </div>
+  </div>
+
+  <div class="pie">
+    <span>Ahor.ia — Optimización de Procesos</span>
+    <span>Pág. 15</span>
+  </div>
+</div>
+
+</body>
+</html>

@@ -146,3 +146,38 @@ node server.js
 * 📁 **Repositorio**: [https://github.com/diegocruz7040-cmyk/amor-cacao](https://github.com/diegocruz7040-cmyk/amor-cacao)
 * 🌐 **Tienda Web (GitHub Pages)**: [https://diegocruz7040-cmyk.github.io/amor-cacao/](https://diegocruz7040-cmyk.github.io/amor-cacao/)
 * 🛡️ **Panel POS (GitHub Pages)**: [https://diegocruz7040-cmyk.github.io/amor-cacao/admin.html](https://diegocruz7040-cmyk.github.io/amor-cacao/admin.html)
+
+---
+
+## 🔑 7. Llaves y Credenciales de Acceso (Usuarios Demo)
+
+Para ingresar al sistema administrativo y probar los diferentes roles:
+
+| Rol | Correo Electrónico | Contraseña | Alcance de Permisos |
+| :--- | :--- | :--- | :--- |
+| **Administrador General** | `admin@amorcacao.com` | `admin123` | Control total: POS, Caja, Inventario, Pedidos Web, Analíticas y Studio Canvas CMS |
+| **Cajero / Ventas** | `cajero@amorcacao.com` | `caja123` | Operación diaria: Punto de venta salón, recepción de pedidos web y caja chica |
+
+> [!NOTE]
+> En la tienda web no se requiere contraseña para comprar; el flujo está diseñado con mínima fricción para maximizar la tasa de conversión y cerrar ventas directas a WhatsApp.
+
+---
+
+## 🗺️ 8. Hoja de Ruta: Implementación Supabase (Fase Backend Nube)
+
+Para completar la transición de la persistencia local hacia una infraestructura en la nube multiusuario centralizada:
+
+1. **Base de Datos PostgreSQL**:
+   - `products`: Catálogo, precios, notas de cata, presentaciones y stock sincronizado.
+   - `web_orders`: Pedidos de la tienda web con desglose de ítems, cliente y estado (`Pendiente`, `Confirmado`, `En Preparación`, `Entregado`, `Cancelado`).
+   - `sales`: Ventas físicas en salón registradas por el POS.
+   - `cash_shifts`: Control de apertura, arqueo y cierre de turnos de caja.
+   - `storefront_cms`: Textos, estilos y configuraciones visuales del Studio.
+2. **Seguridad Row Level Security (RLS)**:
+   - Acceso anónimo (`anon`): Solo `INSERT` en `web_orders` (cero lectura de datos de otros clientes para máxima privacidad PII).
+   - Acceso autenticado (`authenticated`): Lectura y escritura con roles basados en claims (`admin`, `cashier`).
+3. **Sincronización WebSockets en Tiempo Real**:
+   - Escucha reactiva en el módulo de Pedidos Web (`postgres_changes`): cuando un cliente hace checkout en su teléfono, el pedido ingresa en la pantalla del cajero en <100ms con alerta sonora.
+4. **Supabase Storage**:
+   - Bucket público `atelier-creations` para almacenar y servir las imágenes optimizadas del catálogo y fotos del Studio a través de CDN global.
+

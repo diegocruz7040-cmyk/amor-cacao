@@ -1,0 +1,1443 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Amor & Cacao | Chocolatería & Pastelería Fina - Plataforma de Gestión</title>
+  <meta name="description" content="Plataforma de gestión integral para Amor & Cacao: Dashboard financiero, Pedidos Web rigurosos, POS, Calendario de entregas, Inventario, Caja y Roles de usuario.">
+  <link rel="icon" type="image/jpeg" href="assets/logo.jpg">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- =========================================================================
+       ESTRUCTURA PRINCIPAL: BARRA LATERAL PERMANENTE (IZQ) + ÁREA DE TRABAJO (DER)
+       ========================================================================= -->
+  <div class="app-container" id="appContainer">
+
+    <!-- =======================================================================
+         BARRA LATERAL PERMANENTE (IZQUIERDA) - INSCRITA EN LA PLATAFORMA
+         ======================================================================= -->
+    <aside class="app-sidebar" id="appSidebar">
+      <!-- Encabezado con Logo de la Empresa (Clic en el logo para contraer/expandir panel) -->
+      <div class="sidebar-brand" id="btnToggleSidebarCollapse" role="button" tabindex="0" title="Clic en el logo para contraer o expandir el panel lateral">
+        <div class="sidebar-brand-logo-container">
+          <img src="assets/logo.jpg" alt="Logo Amor & Cacao" class="sidebar-logo-img" id="sidebarLogoImg">
+          <span class="sidebar-collapse-badge" id="sidebarCollapseBadge" title="Contraer panel">◀</span>
+        </div>
+        <div class="sidebar-brand-text">
+          <h1 class="sidebar-brand-name">Amor & Cacao</h1>
+          <p class="sidebar-brand-tagline">"Donde el amor se vuelve Chocolate"</p>
+        </div>
+      </div>
+
+      <!-- Perfil de Usuario en el Sidebar -->
+      <div class="sidebar-user-card" id="sidebarUserCard" title="Clic para cambiar de cuenta o iniciar sesión">
+        <div class="sidebar-user-info">
+          <span class="sidebar-user-avatar" id="sidebarUserAvatar">👑</span>
+          <div class="sidebar-user-details">
+            <div class="sidebar-user-name" id="sidebarUserName">Alonso Herrera</div>
+            <span class="user-role-tag admin" id="sidebarUserRole">ADMIN</span>
+          </div>
+        </div>
+        <span class="sidebar-user-switch" title="Cambiar usuario">🔄</span>
+      </div>
+
+      <!-- NAVEGACIÓN MODULAR (ORDEN ESTRICTO PRESERVADO) -->
+      <nav class="sidebar-nav">
+        <!-- 1. DASHBOARD -->
+        <button class="sidebar-nav-btn active" data-tab="tab-dashboard" id="navBtnDashboard" data-tooltip="Dashboard" title="Dashboard">
+          <span class="tab-icon">📊</span>
+          <span class="nav-label">Dashboard</span>
+        </button>
+
+        <!-- 2. PEDIDOS WEB -->
+        <button class="sidebar-nav-btn" data-tab="tab-web-orders" id="navBtnWebOrders" data-tooltip="Pedidos Web" title="Pedidos Web">
+          <span class="tab-icon">🌐</span>
+          <span class="nav-label">Pedidos Web</span>
+          <span class="badge-counter pending" id="navWebOrdersBadge">0</span>
+        </button>
+
+        <!-- 3. PUNTO DE VENTA (POS) -->
+        <button class="sidebar-nav-btn" data-tab="tab-pos" id="navBtnPos" data-tooltip="Punto de Venta" title="Punto de Venta (POS)">
+          <span class="tab-icon">🛒</span>
+          <span class="nav-label">Punto de Venta (POS)</span>
+        </button>
+
+        <!-- 4. CALENDARIO -->
+        <button class="sidebar-nav-btn" data-tab="tab-calendar" id="navBtnCalendar" data-tooltip="Calendario" title="Calendario">
+          <span class="tab-icon">📅</span>
+          <span class="nav-label">Calendario</span>
+          <span class="badge-counter" id="navCalendarBadge">0</span>
+        </button>
+
+        <!-- 5. INVENTARIO & COSTOS -->
+        <button class="sidebar-nav-btn" data-tab="tab-inventory" id="navBtnInventory" data-tooltip="Inventario & Costos" title="Inventario & Costos">
+          <span class="tab-icon">📦</span>
+          <span class="nav-label">Inventario & Costos</span>
+          <span class="badge-counter alert" id="navLowStockBadge" style="display:none;">0</span>
+        </button>
+
+        <!-- 6. CONTROL DE CAJA & ARQUEO -->
+        <button class="sidebar-nav-btn" data-tab="tab-cash" id="navBtnCash" data-tooltip="Control de Caja" title="Control de Caja">
+          <span class="tab-icon">💵</span>
+          <span class="nav-label">Control de Caja</span>
+        </button>
+
+        <!-- 7. PEDIDOS ESPECIALES -->
+        <button class="sidebar-nav-btn" data-tab="tab-orders" id="navBtnOrders" data-tooltip="Pedidos Especiales" title="Pedidos Especiales">
+          <span class="tab-icon">🎂</span>
+          <span class="nav-label">Pedidos Especiales</span>
+          <span class="badge-counter" id="navActiveOrdersBadge">0</span>
+        </button>
+
+        <!-- 8. EDITOR TIENDA WEB -->
+        <button class="sidebar-nav-btn" data-tab="tab-storefront-editor" id="navBtnStorefrontEditor" data-tooltip="Editor Tienda Web" title="Editor Tienda Web">
+          <span class="tab-icon">🎨</span>
+          <span class="nav-label">Editor Tienda Web</span>
+        </button>
+
+        <div class="sidebar-divider"></div>
+
+        <!-- 8. CONFIGURACIÓN (AL FINAL) -->
+        <button class="sidebar-nav-btn" data-tab="tab-settings" id="navBtnSettings" data-tooltip="Configuración" title="Configuración">
+          <span class="tab-icon">⚙️</span>
+          <span class="nav-label">Configuración</span>
+        </button>
+      </nav>
+
+      <!-- Pie del Sidebar con indicación -->
+      <div class="sidebar-footer">
+        <span class="sidebar-footer-tip">💡 Clic en logo para reducir</span>
+      </div>
+    </aside>
+
+    <!-- Backdrop para cerrar sidebar en móviles -->
+    <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+    <!-- ÁREA DERECHA: ENCABEZADO SUPERIOR + CONTENIDO PRINCIPAL -->
+    <div class="app-main-wrapper">
+      <!-- HEADER SUPERIOR -->
+      <header class="main-header">
+        <div class="header-container">
+          <div class="header-left">
+            <!-- Botón Hamburguesa para Móviles -->
+            <button class="btn-mobile-menu" id="btnToggleMobileMenu" title="Abrir menú de módulos">
+              ☰
+            </button>
+            <div class="header-page-title" id="headerPageTitle">
+              <span class="page-title-badge">Amor & Cacao</span>
+              <span class="page-title-subtitle" id="headerActiveTabTitle">📊 Dashboard Ejecutivo</span>
+            </div>
+          </div>
+
+          <div class="header-actions">
+            <!-- Indicador de Caja / Turno -->
+            <div class="shift-status-pill" id="headerShiftPill" title="Estado actual de la caja">
+              <span class="indicator-dot"></span>
+              <span id="headerShiftText">Caja Abierta (S/ 0.00)</span>
+            </div>
+
+            <!-- Perfil de Usuario Activo con Cambio de Sesión -->
+            <div class="user-profile-badge" id="btnOpenUserModal" title="Clic para cambiar de cuenta o iniciar sesión">
+              <span id="headerUserAvatar">👑</span>
+              <span id="headerUserName" style="font-weight: 700;">Alonso Herrera</span>
+              <span class="user-role-tag admin" id="headerUserRole">ADMIN</span>
+            </div>
+
+            <!-- Botón Switch: Menú Digital para Clientes -->
+            <button class="mode-toggle-btn" id="btnToggleMode">
+              <span id="modeToggleIcon">🛍️</span>
+              <span id="modeToggleLabel">Ver Menú Clientes</span>
+            </button>
+
+            <!-- Herramientas Rápidas -->
+            <button class="header-icon-btn" id="btnExportBackup" title="Exportar copia de seguridad (JSON)">💾</button>
+            <button class="header-icon-btn" id="btnImportBackup" title="Importar copia de seguridad">📥</button>
+            <input type="file" id="fileImportInput" accept=".json" style="display:none;">
+            <button class="header-icon-btn" id="btnResetDemo" title="Restablecer datos demo iniciales">🔄</button>
+          </div>
+        </div>
+      </header>
+
+      <!-- ÁREA DE CONTENIDO PRINCIPAL -->
+      <main class="main-content-area">
+
+      <!-- =====================================================================
+           1. MÓDULO: DASHBOARD (FINANZAS, GANANCIAS & REPORTES)
+           ===================================================================== -->
+      <section class="tab-panel active" id="tab-dashboard">
+        <div class="module-card" style="margin-bottom: 1.25rem; padding: 1rem 1.25rem;">
+          <div class="module-header" style="margin-bottom: 0;">
+            <div>
+              <h2>📊 Dashboard Ejecutivo de Rendimiento</h2>
+              <p style="font-size: 0.82rem; color: var(--text-muted);">Métricas en tiempo real de ingresos, costos, utilidades reales y márgenes de ganancia.</p>
+            </div>
+            <div class="table-controls">
+              <label style="font-size: 0.82rem; font-weight: 700;">Período:</label>
+              <select id="financePeriodFilter" class="form-control" style="width: auto;">
+                <option value="all">Todo el Histórico</option>
+                <option value="today">Solo Hoy</option>
+                <option value="week">Últimos 7 Días</option>
+                <option value="month">Este Mes</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tarjetas KPI -->
+        <div class="stats-cards-grid">
+          <div class="kpi-card">
+            <div class="kpi-icon-box gold">💵</div>
+            <div class="kpi-data">
+              <h3>Ingresos Totales (Ventas)</h3>
+              <div class="kpi-value" id="finTotalRevenue">S/ 0.00</div>
+              <div class="kpi-subtext" id="finTransactionsCount">0 ventas procesadas</div>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-icon-box alert">📉</div>
+            <div class="kpi-data">
+              <h3>Costo de Ventas (COGS)</h3>
+              <div class="kpi-value" id="finTotalCost">S/ 0.00</div>
+              <div class="kpi-subtext">Materia prima & producción</div>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-icon-box green">💎</div>
+            <div class="kpi-data">
+              <h3>Ganancia Neta Real</h3>
+              <div class="kpi-value" style="color: var(--success);" id="finNetProfit">S/ 0.00</div>
+              <div class="kpi-subtext">Utilidad libre tras costos</div>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-icon-box purple">🎯</div>
+            <div class="kpi-data">
+              <h3>Margen de Ganancia</h3>
+              <div class="kpi-value" id="finProfitMargin">0%</div>
+              <div class="kpi-subtext" id="finAverageTicket">Ticket Promedio: S/ 0.00</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Gráficos y Comparativas -->
+        <div class="charts-split-grid">
+          <div class="chart-card">
+            <h3>💳 Desglose por Método de Pago</h3>
+            <div id="paymentBreakdownChart">
+              <!-- Renderizado dinámico -->
+            </div>
+          </div>
+
+          <div class="chart-card">
+            <h3>🏆 Top 5 Productos Más Vendidos</h3>
+            <div id="topProductsList">
+              <!-- Renderizado dinámico -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Historial de Ventas -->
+        <div class="module-card">
+          <div class="module-header">
+            <h2>🧾 Historial de Ventas Emitidas</h2>
+          </div>
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Ticket</th>
+                  <th>Fecha y Hora</th>
+                  <th>Cliente</th>
+                  <th>Método</th>
+                  <th>Total</th>
+                  <th>Costo</th>
+                  <th>Ganancia</th>
+                  <th>Acción</th>
+                </tr>
+              </thead>
+              <tbody id="salesHistoryTableBody">
+                <!-- Renderizado dinámico -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- =====================================================================
+           2. MÓDULO: PANEL DE PEDIDOS WEB (CONFIRMACIÓN DE PAGO & RIGUROSIDAD)
+           ===================================================================== -->
+      <section class="tab-panel" id="tab-web-orders">
+        <div class="module-card">
+          <div class="module-header">
+            <div>
+              <h2>🌐 Panel de Pedidos desde Página Web</h2>
+              <p style="font-size: 0.82rem; color: var(--text-muted);">
+                Recepción rigurosa de pedidos de clientes. <strong>Se debe confirmar la recepción del pago</strong> antes de pasar el pedido a preparación o despacho.
+              </p>
+            </div>
+            <div class="table-controls">
+              <button class="btn-primary" id="btnSimulateWebOrder">
+                <span>➕</span>
+                <span>Crear Pedido Web de Prueba</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Filtros de Estado de Pedidos Web -->
+          <div class="web-orders-toolbar">
+            <div class="status-filter-pills" id="webOrdersFilterPills">
+              <button class="cat-pill-btn active" data-web-status="all">Todos los Pedidos</button>
+              <button class="cat-pill-btn" data-web-status="pending_verification">⚠️ Pendientes de Pago</button>
+              <button class="cat-pill-btn" data-web-status="verified">✅ Pago Verificado</button>
+              <button class="cat-pill-btn" data-web-status="in_prep">🥣 En Preparación</button>
+              <button class="cat-pill-btn" data-web-status="ready">✨ Listos para Entrega</button>
+              <button class="cat-pill-btn" data-web-status="cancelled">❌ Cancelados</button>
+            </div>
+            <div class="search-input-wrapper" style="max-width: 260px;">
+              <span class="search-icon">🔍</span>
+              <input type="text" id="webOrdersSearchInput" placeholder="Buscar por cliente o WhatsApp...">
+            </div>
+          </div>
+
+          <!-- Listado de Pedidos Web -->
+          <div id="webOrdersListContainer">
+            <!-- Renderizado dinámico de tarjetas de pedidos web -->
+          </div>
+        </div>
+      </section>
+
+      <!-- =====================================================================
+           3. MÓDULO: PUNTO DE VENTA (POS)
+           ===================================================================== -->
+      <section class="tab-panel" id="tab-pos">
+        <div class="pos-layout">
+          <!-- Catálogo -->
+          <div class="pos-catalog-section">
+            <div class="pos-header-controls">
+              <div class="search-input-wrapper">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="posSearchInput" placeholder="Buscar bombones, tartas, tabletas...">
+              </div>
+              <div class="quick-stats-hint" id="posItemsCount">
+                Cargando catálogo...
+              </div>
+            </div>
+
+            <div class="category-pills-scroll" id="posCategoryPills"></div>
+            <div class="pos-products-grid" id="posProductsGrid"></div>
+          </div>
+
+          <!-- Carrito POS -->
+          <aside class="pos-cart-section">
+            <div class="cart-header">
+              <h2>🛒 Venta Actual</h2>
+              <button class="cart-clear-btn" id="btnClearCart">Limpiar</button>
+            </div>
+
+            <div class="cart-customer-box">
+              <input type="text" id="cartCustomerName" placeholder="Nombre del cliente (opcional)">
+              <input type="text" id="cartCustomerPhone" placeholder="Teléfono / WhatsApp (opcional)">
+            </div>
+
+            <div class="cart-items-list" id="cartItemsList"></div>
+
+            <div class="cart-summary">
+              <div class="summary-row">
+                <span>Subtotal:</span>
+                <span id="cartSubtotal">S/ 0.00</span>
+              </div>
+              <div class="summary-row" style="align-items: center;">
+                <span>Descuento (S/):</span>
+                <input type="number" id="cartDiscountInput" min="0" step="1" value="0" style="width: 70px; padding: 0.2rem 0.4rem; text-align: right; border-radius: 4px; border: 1px solid var(--border-subtle);">
+              </div>
+              <div class="summary-row total-row">
+                <span>TOTAL A COBRAR:</span>
+                <span id="cartTotal">S/ 0.00</span>
+              </div>
+              <button class="btn-checkout" id="btnOpenCheckout" disabled>
+                <span>💳</span>
+                <span>Cobrar Venta</span>
+              </button>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <!-- =====================================================================
+           4. MÓDULO: CALENDARIO INTEGRADO DE ENTREGAS
+           ===================================================================== -->
+      <section class="tab-panel" id="tab-calendar">
+        <div class="module-card" style="margin-bottom: 1.25rem;">
+          <div class="module-header">
+            <div>
+              <h2>📅 Calendario de Entregas & Pedidos Programados</h2>
+              <p style="font-size: 0.82rem; color: var(--text-muted);">
+                Control diario de entregas para clientes (desde pedidos web y encargos especiales). Información editable con WhatsApp directo, detalles y costos.
+              </p>
+            </div>
+            <button class="btn-primary" id="btnCalendarNewDelivery">
+              <span>➕</span>
+              <span>Agendar Entrega</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="calendar-layout">
+          <!-- Calendario Mensual -->
+          <div class="calendar-main-card">
+            <div class="calendar-controls">
+              <h3 class="calendar-month-title" id="calendarMonthTitle">Septiembre 2026</h3>
+              <div class="calendar-btn-group">
+                <button class="btn-secondary" id="btnCalendarPrev">◀ Anterior</button>
+                <button class="btn-secondary" id="btnCalendarToday">Hoy</button>
+                <button class="btn-secondary" id="btnCalendarNext">Siguiente ▶</button>
+              </div>
+            </div>
+
+            <div class="calendar-grid" id="calendarDaysGrid">
+              <!-- Encabezados de días y celdas del mes renderizadas por JS -->
+            </div>
+          </div>
+
+          <!-- Panel de Entregas del Día Seleccionado -->
+          <div class="day-deliveries-panel">
+            <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border-subtle);">
+              <h3 id="selectedDateTitle">Entregas del Día</h3>
+              <span class="status-badge in-stock" id="selectedDateCountBadge">0 entregas</span>
+            </div>
+            <div class="day-deliveries-list" id="dayDeliveriesList">
+              <!-- Lista de entregas programadas del día -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =====================================================================
+           5. MÓDULO: INVENTARIO & COSTOS
+           ===================================================================== -->
+      <section class="tab-panel" id="tab-inventory">
+        <div class="stats-cards-grid">
+          <div class="kpi-card">
+            <div class="kpi-icon-box gold">📦</div>
+            <div class="kpi-data">
+              <h3>Productos en Catálogo</h3>
+              <div class="kpi-value" id="invTotalProducts">0</div>
+              <div class="kpi-subtext">Variedades registradas</div>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-icon-box alert">⚠️</div>
+            <div class="kpi-data">
+              <h3>Alerta Stock Bajo</h3>
+              <div class="kpi-value" id="invLowStockCount">0</div>
+              <div class="kpi-subtext">Requieren reposición urgente</div>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-icon-box purple">💰</div>
+            <div class="kpi-data">
+              <h3>Valorización al Costo</h3>
+              <div class="kpi-value" id="invValuationCost">S/ 0.00</div>
+              <div class="kpi-subtext">Capital invertido en stock</div>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-icon-box green">📈</div>
+            <div class="kpi-data">
+              <h3>Valor de Venta Esperado</h3>
+              <div class="kpi-value" id="invValuationSale">S/ 0.00</div>
+              <div class="kpi-subtext" id="invPotentialProfitSub">Ganancia potencial: S/ 0.00</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="module-card">
+          <div class="module-header">
+            <h2>📦 Registro de Inventario & Costeo</h2>
+            <div class="table-controls">
+              <div class="search-input-wrapper" style="min-width: 220px;">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="invSearchInput" placeholder="Buscar por nombre o SKU...">
+              </div>
+              <select id="invCategoryFilter" class="form-control" style="width: auto;">
+                <option value="todos">Todas las Categorías</option>
+                <option value="bombones">Bombones & Trufas</option>
+                <option value="pasteles">Pasteles & Tartas</option>
+                <option value="tabletas">Tabletas de Origen</option>
+                <option value="postres">Postres de Vitrina</option>
+                <option value="bebidas">Bebidas & Cacao</option>
+                <option value="regalos">Cajas de Regalo</option>
+              </select>
+              <button class="btn-primary" id="btnOpenNewProduct">
+                <span>➕</span>
+                <span>Nuevo Producto</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Producto</th>
+                  <th>Categoría</th>
+                  <th>Stock Actual</th>
+                  <th>Costo Unit.</th>
+                  <th>Precio Venta</th>
+                  <th>Ganancia Unit.</th>
+                  <th>Margen %</th>
+                  <th>Estado</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="inventoryTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- =====================================================================
+           6. MÓDULO: CONTROL DE CAJA & ARQUEO
+           ===================================================================== -->
+      <section class="tab-panel" id="tab-cash">
+        <div class="cash-shift-banner" id="cashShiftBanner">
+          <div class="cash-banner-info">
+            <h2 id="bannerShiftTitle">Turno de Caja: Activo</h2>
+            <p id="bannerShiftDetails">Cajero: Administrador | Abierto: Hoy</p>
+          </div>
+          <div class="table-controls">
+            <button class="btn-secondary" id="btnOpenCashInModal">
+              <span>➕</span>
+              <span>Ingreso Extra</span>
+            </button>
+            <button class="btn-secondary" id="btnOpenCashOutModal">
+              <span>➖</span>
+              <span>Gasto Caja Chica</span>
+            </button>
+            <button class="btn-primary" id="btnOpenCloseShiftModal">
+              <span>🔒</span>
+              <span>Realizar Arqueo & Cerrar Caja</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="cash-breakdown-grid">
+          <div class="cash-metric-box">
+            <div class="label">Fondo Inicial de Caja</div>
+            <div class="amount" id="cashInitialAmount">S/ 0.00</div>
+            <small class="kpi-subtext">Sencillo para vuelto</small>
+          </div>
+          <div class="cash-metric-box">
+            <div class="label">Ventas en Efectivo</div>
+            <div class="amount" id="cashSalesCash">S/ 0.00</div>
+            <small class="kpi-subtext">Ingresado a caja física</small>
+          </div>
+          <div class="cash-metric-box">
+            <div class="label">Ventas Tarjeta (POS)</div>
+            <div class="amount" id="cashSalesCard">S/ 0.00</div>
+            <small class="kpi-subtext">Depósito en cuenta</small>
+          </div>
+          <div class="cash-metric-box">
+            <div class="label">Ventas Yape / Plin</div>
+            <div class="amount" id="cashSalesDigital">S/ 0.00</div>
+            <small class="kpi-subtext">Billeteras digitales</small>
+          </div>
+          <div class="cash-metric-box">
+            <div class="label">Gastos / Retiros</div>
+            <div class="amount" style="color: var(--danger);" id="cashTotalOut">S/ 0.00</div>
+            <small class="kpi-subtext">Caja chica / compras</small>
+          </div>
+          <div class="cash-metric-box highlight">
+            <div class="label">EFECTIVO ESPERADO EN CAJA</div>
+            <div class="amount" style="color: var(--caramel-primary);" id="cashExpectedTotal">S/ 0.00</div>
+            <small class="kpi-subtext">Saldo físico en gaveta</small>
+          </div>
+        </div>
+
+        <div class="module-card">
+          <div class="module-header">
+            <h2>📑 Movimientos del Turno Actual</h2>
+          </div>
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Hora</th>
+                  <th>Tipo</th>
+                  <th>Monto</th>
+                  <th>Motivo</th>
+                  <th>Responsable</th>
+                </tr>
+              </thead>
+              <tbody id="cashMovementsTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- =====================================================================
+           7. MÓDULO: PEDIDOS ESPECIALES (ENCARGOS)
+           ===================================================================== -->
+      <section class="tab-panel" id="tab-orders">
+        <div class="module-card">
+          <div class="module-header">
+            <div>
+              <h2>🎂 Encargos Especiales & Pastelería de Eventos</h2>
+              <p style="font-size: 0.82rem; color: var(--text-muted);">Tortas personalizadas, dedicatorias y cajas corporativas con anticipos y saldos.</p>
+            </div>
+            <button class="btn-primary" id="btnOpenNewOrder">
+              <span>➕</span>
+              <span>Nuevo Encargo</span>
+            </button>
+          </div>
+
+          <div class="orders-grid" id="ordersGrid"></div>
+        </div>
+      </section>
+
+      <!-- =====================================================================
+           8. MÓDULO: GESTOR & EDITOR VISUAL DE TIENDA WEB
+           ===================================================================== -->
+      <section class="tab-panel" id="tab-storefront-editor">
+        <div class="module-card">
+          <div class="module-header">
+            <div>
+              <h2>🎨 Gestor & Editor Visual de Tienda Web</h2>
+              <p style="font-size: 0.82rem; color: var(--text-muted);">
+                Edita textos, titulares, lemas, precios y datos de contacto de tu tienda online sin tocar código.
+              </p>
+            </div>
+            <div style="display: flex; gap: 0.75rem; align-items: center;">
+              <span class="badge-status in-progress" style="display: flex; align-items: center; gap: 0.4rem; padding: 0.4rem 0.85rem; font-size: 0.78rem;">
+                <span style="width: 8px; height: 8px; border-radius: 50%; background: #4caf50; box-shadow: 0 0 8px #4caf50;"></span>
+                <span>Tienda Activa · Tacna</span>
+              </span>
+              <a href="tienda.html" target="_blank" class="btn-secondary" style="text-decoration: none; display: inline-flex; align-items: center; gap: 0.4rem;">
+                <span>🌐</span>
+                <span>Ver Tienda Pública</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Hero de Lanzamiento del Editor Visual en Vivo -->
+          <div style="
+            background: linear-gradient(135deg, rgba(35, 16, 8, 0.95), rgba(20, 8, 3, 0.98));
+            border: 1.5px solid rgba(218, 165, 32, 0.4);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+          ">
+            <div style="max-width: 680px;">
+              <div style="display: inline-flex; align-items: center; gap: 0.5rem; color: #daa520; font-size: 0.76rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 0.5rem;">
+                <span>✨ Modo Canvas Visual (Estilo Canva / Notion)</span>
+              </div>
+              <h3 style="font-size: 1.45rem; color: #fff8f0; margin-bottom: 0.6rem; font-family: var(--font-serif, serif);">
+                Edita tu Tienda Directamente en Pantalla
+              </h3>
+              <p style="font-size: 0.88rem; color: #c8b7a6; line-height: 1.6; margin-bottom: 1rem;">
+                Abre la tienda web en <strong>Modo Administrador</strong>. Podrás hacer clic sobre cualquier titular, lema, precio o ficha técnica para escribir directamente sobre la página. Solo tú con tu sesión administrativa podrás ver los controles de edición; tus clientes verán la web limpia.
+              </p>
+              <div style="display: flex; gap: 1.25rem; font-size: 0.78rem; color: #daa520;">
+                <span>✓ Cero código requerido</span>
+                <span>✓ Vista previa en tiempo real</span>
+                <span>✓ Publicación con un solo clic</span>
+              </div>
+            </div>
+
+            <div style="text-align: right; flex-shrink: 0;">
+              <button type="button" class="btn-primary" id="btnLaunchVisualEditor" style="
+                background: linear-gradient(135deg, #daa520, #c9883b);
+                color: #0c0502;
+                font-size: 1rem;
+                font-weight: 800;
+                padding: 1rem 1.85rem;
+                border-radius: 12px;
+                box-shadow: 0 6px 25px rgba(218, 165, 32, 0.4);
+                cursor: pointer;
+                display: inline-flex;
+                align-items: center;
+                gap: 0.75rem;
+              ">
+                <span style="font-size: 1.25rem;">🚀</span>
+                <span>Lanzar Editor Visual en Vivo</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Formulario de Edición Rápida (Quick CMS) -->
+          <div class="settings-grid">
+            <div>
+              <h3 style="font-size: 1.05rem; margin-bottom: 0.75rem;">📝 Contenidos Principales de la Tienda</h3>
+              <form id="quickCmsForm">
+                <div class="form-group">
+                  <label for="cmsHeroCurator">Etiqueta Superior de Origen (Hero Overline):</label>
+                  <input type="text" id="cmsHeroCurator" class="form-control" value="Cosecha Seleccionada 2026 · Atelier Tacna">
+                </div>
+                <div class="form-group">
+                  <label for="cmsHeroHeadline">Titular Monumental del Hero:</label>
+                  <input type="text" id="cmsHeroHeadline" class="form-control" value="La Alquimia del Cacao Puro donde El Amor Se Vuelve Arte">
+                </div>
+                <div class="form-group">
+                  <label for="cmsHeroSubhead">Manifiesto / Subtítulo del Hero:</label>
+                  <textarea id="cmsHeroSubhead" class="form-control" rows="3">Chocolatería de culto elaborada grano a grano desde los valles sagrados de Cusco, Piura y Bagua. Alta repostería sensorial inspirada en el respeto botánico por los microclimas peruanos.</textarea>
+                </div>
+                <div class="form-group">
+                  <label for="cmsMasterpieceDesc">Descripción de la Creación Insignia del Mes:</label>
+                  <textarea id="cmsMasterpieceDesc" class="form-control" rows="2">12 bombones pintados a mano al óleo de cacao. Ganache aterciopelada al 70%, maracuyá silvestre y praliné crujiente de avellanas.</textarea>
+                </div>
+                <div style="display: flex; gap: 0.75rem; margin-top: 1rem;">
+                  <button type="submit" class="btn-primary" id="btnSaveQuickCms">
+                    <span>💾 Guardar Cambios</span>
+                  </button>
+                  <button type="button" class="btn-secondary" id="btnResetStorefrontCms" style="color: #e57373;">
+                    <span>↺ Restablecer Originales</span>
+                  </button>
+                </div>
+              </form>
+            </div>
+
+            <div>
+              <h3 style="font-size: 1.05rem; margin-bottom: 0.75rem;">📍 Información del Atelier en Tacna</h3>
+              <div class="form-group">
+                <label for="cmsAtelierAddress">Dirección y Punto de Encuentro:</label>
+                <input type="text" id="cmsAtelierAddress" class="form-control" value="Centro Histórico de Tacna · Paseo Cívico (Arco Parabólico)">
+              </div>
+              <div class="form-group">
+                <label for="cmsAtelierHours">Horario de Atención:</label>
+                <input type="text" id="cmsAtelierHours" class="form-control" value="Lun-Sáb: 09:00 - 20:00 · Dom: 10:00 - 18:00">
+              </div>
+              <div class="form-group">
+                <label for="cmsAtelierPhone">WhatsApp Oficial para Pedidos:</label>
+                <input type="text" id="cmsAtelierPhone" class="form-control" value="+51 987 654 321">
+              </div>
+              <div style="
+                background: rgba(218, 165, 32, 0.08);
+                border: 1px dashed rgba(218, 165, 32, 0.3);
+                border-radius: 10px;
+                padding: 1rem;
+                margin-top: 1.5rem;
+                font-size: 0.82rem;
+                color: var(--text-muted);
+                line-height: 1.6;
+              ">
+                💡 <strong>Consejo del Atelier:</strong> Puedes modificar los textos tanto desde este formulario rápido como directamente sobre la tienda con el botón <em>"Lanzar Editor Visual en Vivo"</em>. Ambos métodos se sincronizan en tiempo real.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =====================================================================
+           9. MÓDULO: CONFIGURACIÓN & ROLES DE USUARIO
+           ===================================================================== -->
+      <section class="tab-panel" id="tab-settings">
+        <div class="module-card">
+          <div class="module-header">
+            <div>
+              <h2>⚙️ Configuración del Sistema & Usuarios</h2>
+              <p style="font-size: 0.82rem; color: var(--text-muted);">Administración de cuentas con acceso restringido para personal de ventas y administradores.</p>
+            </div>
+            <button class="btn-primary" id="btnOpenNewUserModal">
+              <span>➕</span>
+              <span>Crear Nuevo Usuario</span>
+            </button>
+          </div>
+
+          <div class="settings-grid">
+            <!-- Lista de Usuarios y Roles -->
+            <div>
+              <h3 style="font-size: 1.05rem; margin-bottom: 0.75rem;">👥 Cuentas de Acceso al Sistema</h3>
+              <div id="usersListContainer">
+                <!-- Se llena dinámicamente -->
+              </div>
+            </div>
+
+            <!-- Ajustes Generales de la Tienda -->
+            <div>
+              <h3 style="font-size: 1.05rem; margin-bottom: 0.75rem;">🏪 Datos de Amor & Cacao</h3>
+              <form id="settingsForm">
+                <div class="form-group">
+                  <label for="setBusinessName">Nombre Comercial:</label>
+                  <input type="text" id="setBusinessName" class="form-control" value="Amor & Cacao">
+                </div>
+                <div class="form-group">
+                  <label for="setTagline">Lema / Slogan:</label>
+                  <input type="text" id="setTagline" class="form-control" value="Donde el amor se vuelve Chocolate">
+                </div>
+                <div class="form-group">
+                  <label for="setWhatsapp">WhatsApp para Pedidos Web:</label>
+                  <input type="text" id="setWhatsapp" class="form-control" value="+51 987 654 321">
+                </div>
+                <div class="form-group">
+                  <label for="setAddress">Dirección de la Tienda:</label>
+                  <input type="text" id="setAddress" class="form-control" value="Paseo Cívico / Centro Histórico, Tacna - Perú">
+                </div>
+                <div class="form-group">
+                  <label for="setCurrency">Símbolo de Moneda:</label>
+                  <select id="setCurrency" class="form-control">
+                    <option value="S/.">Soles (S/.)</option>
+                    <option value="$">Dólares ($)</option>
+                  </select>
+                </div>
+                <button type="submit" class="btn-primary" style="margin-top: 0.5rem;">
+                  <span>💾 Guardar Ajustes</span>
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =====================================================================
+           MENÚ DIGITAL CLIENTES (STOREFRONT INTEGRADO)
+           ===================================================================== -->
+      <section class="tab-panel" id="tab-storefront">
+        <div class="client-hero">
+          <h2>Amour & Cacao</h2>
+          <p>"Donde el amor se vuelve Chocolate" — Chocolatería y pastelería fina elaborada con cacaos peruanos nativos de origen único y el más puro arte dulce.</p>
+          <div class="client-hero-badges">
+            <div class="client-badge-item">🌿 Cacao Nativo 100% Peruano</div>
+            <div class="client-badge-item">✨ Sin Preservantes Artificiales</div>
+            <div class="client-badge-item">🎨 Bombones Pintados a Mano</div>
+            <div class="client-badge-item">🍰 Tartas con Glaseado Espejo</div>
+          </div>
+        </div>
+
+        <div class="category-pills-scroll" id="clientCategoryPills" style="justify-content: center; margin-bottom: 1.75rem;"></div>
+        <div class="client-products-grid" id="clientProductsGrid"></div>
+      </section>
+
+    </main>
+    </div>
+  </div>
+
+  <!-- Botón flotante para el carrito del cliente -->
+  <div class="client-cart-bar" id="clientCartBar" style="display: none;">
+    <button class="btn-floating-cart" id="btnOpenClientCart">
+      <span>🛍️</span>
+      <span>Confirmar Pedido (<span id="clientCartCount">0</span>) - <span id="clientCartTotal">S/ 0.00</span></span>
+    </button>
+  </div>
+
+  <!-- =========================================================================
+       MODALES NATIVOS (<dialog>)
+       ========================================================================= -->
+
+  <!-- 1. MODAL DE LOGIN / CAMBIO DE USUARIO -->
+  <dialog id="loginModal">
+    <div class="modal-dialog-content">
+      <div class="modal-header">
+        <h3>🔐 Iniciar Sesión / Cambiar Usuario</h3>
+        <button class="modal-close-btn" data-close-dialog="loginModal">✕</button>
+      </div>
+
+      <div style="margin-bottom: 1.25rem;">
+        <label style="font-size: 0.8rem; font-weight: 700; display: block; margin-bottom: 0.5rem;">Acceso Rápido por Perfil:</label>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+          <button type="button" class="btn-secondary" id="btnQuickLoginAdmin" style="justify-content: center; padding: 0.75rem; text-align: left;">
+            <span style="font-size: 1.4rem;">👑</span>
+            <div>
+              <strong style="display: block; font-size: 0.85rem;">Alonso Herrera</strong>
+              <small style="color: var(--caramel-primary); font-weight: 700;">ADMINISTRADOR</small>
+            </div>
+          </button>
+          <button type="button" class="btn-secondary" id="btnQuickLoginSales" style="justify-content: center; padding: 0.75rem; text-align: left;">
+            <span style="font-size: 1.4rem;">💼</span>
+            <div>
+              <strong style="display: block; font-size: 0.85rem;">Sofia Paredes</strong>
+              <small style="color: #1976d2; font-weight: 700;">PERSONAL VENTAS</small>
+            </div>
+          </button>
+        </div>
+      </div>
+
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="loginUsername">Usuario:</label>
+          <input type="text" id="loginUsername" class="form-control" placeholder="Ej. admin o ventas" required>
+        </div>
+        <div class="form-group">
+          <label for="loginPin">Código PIN (demo: 1234):</label>
+          <input type="password" id="loginPin" class="form-control" placeholder="PIN de 4 dígitos" required>
+        </div>
+        <button type="submit" class="btn-checkout" style="margin-top: 0.5rem;">
+          <span>Iniciar Sesión</span>
+        </button>
+      </form>
+    </div>
+  </dialog>
+
+  <!-- 2. MODAL DE CREAR / EDITAR USUARIO -->
+  <dialog id="userModal">
+    <div class="modal-dialog-content">
+      <div class="modal-header">
+        <h3 id="userModalTitle">➕ Nuevo Usuario de Plataforma</h3>
+        <button class="modal-close-btn" data-close-dialog="userModal">✕</button>
+      </div>
+      <form id="userForm">
+        <input type="hidden" id="userEditId">
+        <div class="form-group">
+          <label for="userNameInput">Nombre Completo:</label>
+          <input type="text" id="userNameInput" class="form-control" required placeholder="Ej. Mateo Castillo">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="userUsernameInput">Usuario de acceso:</label>
+            <input type="text" id="userUsernameInput" class="form-control" required placeholder="Ej. mateo">
+          </div>
+          <div class="form-group">
+            <label for="userPinInput">PIN de acceso (4 dígitos):</label>
+            <input type="password" id="userPinInput" class="form-control" required placeholder="1234">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="userEmailInput">Correo Electrónico:</label>
+          <input type="email" id="userEmailInput" class="form-control" placeholder="correo@amorcacao.com">
+        </div>
+        <div class="form-group">
+          <label for="userRoleInput">Rol y Nivel de Acceso:</label>
+          <select id="userRoleInput" class="form-control">
+            <option value="sales">💼 Personal de Ventas (POS, Pedidos Web, Calendario)</option>
+            <option value="admin">👑 Administrador (Acceso 100% Total, Dashboard, Finanzas, Config)</option>
+          </select>
+          <small style="display: block; font-size: 0.72rem; color: var(--text-muted); margin-top: 0.25rem;">
+            El personal de ventas no tiene acceso al Dashboard confidencial de costos/márgenes ni a la Configuración de usuarios.
+          </small>
+        </div>
+        <button type="submit" class="btn-checkout" style="margin-top: 0.75rem;">
+          <span>Guardar Usuario</span>
+        </button>
+      </form>
+    </div>
+  </dialog>
+
+  <!-- 3. MODAL DE CHECKOUT POS -->
+  <dialog id="checkoutModal">
+    <div class="modal-dialog-content">
+      <div class="modal-header">
+        <h3>💳 Cobrar Venta en Local</h3>
+        <button class="modal-close-btn" data-close-dialog="checkoutModal">✕</button>
+      </div>
+
+      <div class="summary-row total-row" style="margin-bottom: 1rem; font-size: 1.4rem; justify-content: space-between;">
+        <span>Total a Pagar:</span>
+        <span id="modalCheckoutTotal" style="color: var(--caramel-primary);">S/ 0.00</span>
+      </div>
+
+      <div class="form-group">
+        <label>Método de Pago:</label>
+        <div class="payment-methods-selector">
+          <div class="pay-method-card active" data-method="cash">
+            <div style="font-size: 1.3rem;">💵</div>
+            <div>Efectivo</div>
+          </div>
+          <div class="pay-method-card" data-method="card">
+            <div style="font-size: 1.3rem;">💳</div>
+            <div>Tarjeta POS</div>
+          </div>
+          <div class="pay-method-card" data-method="digital">
+            <div style="font-size: 1.3rem;">📱</div>
+            <div>Yape / Plin</div>
+          </div>
+        </div>
+      </div>
+
+      <div id="cashPaymentSection">
+        <div class="form-group">
+          <label for="cashReceivedInput">Monto Recibido en Efectivo:</label>
+          <input type="number" id="cashReceivedInput" class="form-control" step="0.5" placeholder="0.00">
+          <div class="quick-cash-buttons">
+            <button type="button" class="btn-quick-cash" data-cash-exact>Monto Exacto</button>
+            <button type="button" class="btn-quick-cash" data-cash="20">S/ 20</button>
+            <button type="button" class="btn-quick-cash" data-cash="50">S/ 50</button>
+            <button type="button" class="btn-quick-cash" data-cash="100">S/ 100</button>
+            <button type="button" class="btn-quick-cash" data-cash="200">S/ 200</button>
+          </div>
+        </div>
+
+        <div class="change-display-box" id="changeDisplayBox">
+          <div style="font-size: 0.78rem; font-weight: 700; text-transform: uppercase;">Vuelto a Entregar:</div>
+          <div class="change-amount" id="changeAmount">S/ 0.00</div>
+        </div>
+      </div>
+
+      <div id="digitalPaymentSection" style="display: none; text-align: center; padding: 0.85rem; background: #f3e5f5; border-radius: 8px; margin-bottom: 0.85rem;">
+        <div style="font-size: 1.1rem; font-weight: 700; color: #7b1fa2;">Yape / Plin Amor & Cacao</div>
+        <div style="font-size: 2.5rem; margin: 0.3rem 0;">📲</div>
+        <p style="font-size: 0.85rem;">Número asociado: <strong>987 654 321</strong></p>
+      </div>
+
+      <div id="cardPaymentSection" style="display: none; text-align: center; padding: 0.85rem; background: #e3f2fd; border-radius: 8px; margin-bottom: 0.85rem;">
+        <div style="font-size: 1.05rem; font-weight: 700; color: #1565c0;">Terminal IziPay / Niubiz</div>
+        <p style="font-size: 0.82rem; color: #0d47a1;">Acerque o inserte la tarjeta en el POS.</p>
+      </div>
+
+      <button class="btn-checkout" id="btnConfirmSale">
+        <span>✅ Confirmar Venta y Emitir Ticket</span>
+      </button>
+    </div>
+  </dialog>
+
+  <!-- 4. MODAL DE TICKET / COMPROBANTE -->
+  <dialog id="receiptModal">
+    <div class="modal-dialog-content">
+      <div class="modal-header no-print">
+        <h3>🧾 Comprobante de Venta</h3>
+        <button class="modal-close-btn" data-close-dialog="receiptModal">✕</button>
+      </div>
+
+      <div class="receipt-wrapper" id="receiptPrintArea">
+        <div class="receipt-header">
+          <div class="receipt-brand">Amour & Cacao</div>
+          <div style="font-size: 0.75rem; font-style: italic;">"Donde el amor se vuelve Chocolate"</div>
+          <div style="font-size: 0.72rem; margin-top: 0.25rem;">RUC: 20608945123</div>
+          <div style="font-size: 0.72rem;">Paseo Cívico / Centro Histórico, Tacna - Perú</div>
+          <div style="font-size: 0.72rem;">Tel: +51 987 654 321</div>
+          <div class="receipt-divider"></div>
+          <div style="display: flex; justify-content: space-between; font-size: 0.75rem;">
+            <span id="recNumber">TKT-0000</span>
+            <span id="recDate">12/09/2026 14:00</span>
+          </div>
+          <div style="text-align: left; font-size: 0.75rem; margin-top: 0.2rem;">
+            Cliente: <strong id="recCustomer">Cliente General</strong>
+          </div>
+        </div>
+
+        <div class="receipt-divider"></div>
+        <div id="recItemsList"></div>
+        <div class="receipt-divider"></div>
+
+        <div class="receipt-item-line">
+          <span>Subtotal:</span>
+          <span id="recSubtotal">S/ 0.00</span>
+        </div>
+        <div class="receipt-item-line" id="recDiscountRow" style="display: none;">
+          <span>Descuento:</span>
+          <span id="recDiscount">S/ 0.00</span>
+        </div>
+        <div class="receipt-total-line">
+          <span>TOTAL:</span>
+          <span id="recTotal">S/ 0.00</span>
+        </div>
+
+        <div class="receipt-divider"></div>
+
+        <div class="receipt-item-line">
+          <span>Método de Pago:</span>
+          <span id="recMethod">Efectivo</span>
+        </div>
+        <div class="receipt-item-line" id="recPaidRow">
+          <span>Monto Recibido:</span>
+          <span id="recPaid">S/ 0.00</span>
+        </div>
+        <div class="receipt-item-line" id="recChangeRow">
+          <span>Vuelto Entregado:</span>
+          <span id="recChange">S/ 0.00</span>
+        </div>
+
+        <div class="receipt-footer">
+          <div>¡Gracias por preferir la magia de nuestro cacao!</div>
+        </div>
+      </div>
+
+      <div class="table-controls no-print" style="margin-top: 1rem; justify-content: center;">
+        <button class="btn-secondary" id="btnPrintReceipt">🖨️ Imprimir Ticket</button>
+        <button class="btn-primary" id="btnShareWhatsAppReceipt">💬 Enviar x WhatsApp</button>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- 5. MODAL DE PRODUCTO (INVENTARIO) -->
+  <dialog id="productModal">
+    <div class="modal-dialog-content">
+      <div class="modal-header">
+        <h3 id="productModalTitle">➕ Nuevo Producto</h3>
+        <button class="modal-close-btn" data-close-dialog="productModal">✕</button>
+      </div>
+
+      <form id="productForm">
+        <input type="hidden" id="prodEditId">
+        <div class="form-group">
+          <label for="prodName">Nombre del Producto / Postre:</label>
+          <input type="text" id="prodName" class="form-control" required placeholder="Ej. Bombones de Maracuyá al 70%">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="prodCategory">Categoría:</label>
+            <select id="prodCategory" class="form-control" required>
+              <option value="bombones">Bombones & Trufas</option>
+              <option value="pasteles">Pasteles & Tartas</option>
+              <option value="tabletas">Tabletas de Origen</option>
+              <option value="postres">Postres de Vitrina</option>
+              <option value="bebidas">Bebidas & Cacao</option>
+              <option value="regalos">Cajas de Regalo</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="prodSku">Código SKU:</label>
+            <input type="text" id="prodSku" class="form-control" placeholder="Ej. BOM-009">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="prodCost">Costo de Producción (S/):</label>
+            <input type="number" id="prodCost" class="form-control" step="0.1" min="0" required placeholder="0.00">
+          </div>
+          <div class="form-group">
+            <label for="prodPrice">Precio de Venta (S/):</label>
+            <input type="number" id="prodPrice" class="form-control" step="0.1" min="0" required placeholder="0.00">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="prodStock">Stock Inicial:</label>
+            <input type="number" id="prodStock" class="form-control" min="0" required placeholder="0">
+          </div>
+          <div class="form-group">
+            <label for="prodMinStock">Stock Mínimo Alerta:</label>
+            <input type="number" id="prodMinStock" class="form-control" min="1" value="5">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="prodOrigin">Origen del Cacao / Notas:</label>
+          <input type="text" id="prodOrigin" class="form-control" placeholder="Ej. Cacao Chuncho de Cusco 70%">
+        </div>
+        <div class="form-group">
+          <label for="prodImageSelect">Imagen del Producto:</label>
+          <select id="prodImageSelect" class="form-control">
+            <option value="assets/products/caja_bombones.jpg">Caja de Bombones de Autor</option>
+            <option value="assets/products/trufas_cacao.jpg">Trufas al Cacao Puro</option>
+            <option value="assets/products/tarta_chocolate.jpg">Tarta Mousse & Espejo de Cacao</option>
+            <option value="assets/products/tableta_origen.jpg">Tableta Bean-to-Bar con Frutos</option>
+            <option value="assets/products/chocolate_caliente.jpg">Chocolate Caliente Artesanal</option>
+            <option value="assets/products/cheesecake_frutos_rojos.jpg">Cheesecake de Cacao & Frutos Rojos</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="prodDescription">Descripción Artesanal:</label>
+          <textarea id="prodDescription" class="form-control" rows="2" placeholder="Detalles de sabor y textura..."></textarea>
+        </div>
+        <button type="submit" class="btn-checkout"><span>💾 Guardar Producto</span></button>
+      </form>
+    </div>
+  </dialog>
+
+  <!-- 6. MODAL DE AJUSTE DE STOCK / MERMA -->
+  <dialog id="stockAdjustModal">
+    <div class="modal-dialog-content">
+      <div class="modal-header">
+        <h3>⚖️ Ajuste de Stock / Registro de Merma</h3>
+        <button class="modal-close-btn" data-close-dialog="stockAdjustModal">✕</button>
+      </div>
+      <form id="stockAdjustForm">
+        <input type="hidden" id="adjustProdId">
+        <div class="form-group">
+          <label>Producto:</label>
+          <div id="adjustProdName" style="font-weight: 700; color: var(--cacao-900); padding: 0.4rem; background: var(--cream-100); border-radius: 4px;">-</div>
+        </div>
+        <div class="form-group">
+          <label for="adjustType">Tipo de Movimiento:</label>
+          <select id="adjustType" class="form-control">
+            <option value="restock">➕ Entrada por Producción / Compra de Lote</option>
+            <option value="waste">➖ Merma / Caducidad / Desperdicio</option>
+            <option value="adjustment">🔄 Corrección Manual de Conteo Físico</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="adjustQty">Cantidad de Unidades:</label>
+          <input type="number" id="adjustQty" class="form-control" min="1" value="1" required>
+        </div>
+        <div class="form-group">
+          <label for="adjustReason">Motivo o Justificación:</label>
+          <input type="text" id="adjustReason" class="form-control" placeholder="Ej. Lote horneado del día, producto dañado..." required>
+        </div>
+        <button type="submit" class="btn-primary" style="width: 100%; justify-content: center; padding: 0.75rem;">
+          <span>Registrar Movimiento</span>
+        </button>
+      </form>
+    </div>
+  </dialog>
+
+  <!-- 7. MODAL DE MOVIMIENTO DE CAJA -->
+  <dialog id="cashMovementModal">
+    <div class="modal-dialog-content">
+      <div class="modal-header">
+        <h3 id="cashMovementTitle">💸 Movimiento de Caja</h3>
+        <button class="modal-close-btn" data-close-dialog="cashMovementModal">✕</button>
+      </div>
+      <form id="cashMovementForm">
+        <input type="hidden" id="cashMovementType" value="outflow">
+        <div class="form-group">
+          <label for="cashMoveAmount">Monto en Efectivo (S/):</label>
+          <input type="number" id="cashMoveAmount" class="form-control" step="0.5" min="0.5" placeholder="0.00" required>
+        </div>
+        <div class="form-group">
+          <label for="cashMoveReason">Motivo / Justificación:</label>
+          <input type="text" id="cashMoveReason" class="form-control" placeholder="Ej. Compra de fresas, propina, taxi delivery..." required>
+        </div>
+        <div class="form-group">
+          <label for="cashMoveUser">Responsable:</label>
+          <input type="text" id="cashMoveUser" class="form-control" value="Pastelero / Cajero" required>
+        </div>
+        <button type="submit" class="btn-primary" style="width: 100%; justify-content: center; padding: 0.75rem;">
+          <span>Registrar en Caja</span>
+        </button>
+      </form>
+    </div>
+  </dialog>
+
+  <!-- 8. MODAL DE ARQUEO Y CIERRE DE CAJA -->
+  <dialog id="closeShiftModal">
+    <div class="modal-dialog-content">
+      <div class="modal-header">
+        <h3>🔒 Arqueo y Cierre de Caja</h3>
+        <button class="modal-close-btn" data-close-dialog="closeShiftModal">✕</button>
+      </div>
+
+      <div style="background: var(--cream-100); border-radius: var(--radius-sm); padding: 0.85rem; margin-bottom: 1rem;">
+        <div class="summary-row">
+          <span>Saldo Inicial:</span>
+          <strong id="closeModalInitial">S/ 0.00</strong>
+        </div>
+        <div class="summary-row">
+          <span>Ventas en Efectivo:</span>
+          <strong id="closeModalCashSales">S/ 0.00</strong>
+        </div>
+        <div class="summary-row">
+          <span>Gastos Caja Chica:</span>
+          <strong id="closeModalCashOut" style="color: var(--danger);">-S/ 0.00</strong>
+        </div>
+        <div class="summary-row total-row" style="margin-top: 0.4rem; font-size: 1.1rem;">
+          <span>EFECTIVO ESPERADO:</span>
+          <strong id="closeModalExpected" style="color: var(--caramel-primary);">S/ 0.00</strong>
+        </div>
+      </div>
+
+      <form id="closeShiftForm">
+        <div class="form-group">
+          <label for="closeCountedCash">Dinero en Efectivo Contado Físicamente (S/):</label>
+          <input type="number" id="closeCountedCash" class="form-control" step="0.5" placeholder="Conteo real de gaveta" required>
+        </div>
+        <div id="closeDifferenceBox" style="padding: 0.65rem; border-radius: 6px; text-align: center; margin-bottom: 0.85rem; display: none;"></div>
+        <div class="form-group">
+          <label for="closeNotes">Observaciones:</label>
+          <textarea id="closeNotes" class="form-control" rows="2" placeholder="Notas sobre el arqueo..."></textarea>
+        </div>
+        <button type="submit" class="btn-checkout" style="background: var(--cacao-800);">
+          <span>Confirmar Arqueo y Finalizar Turno</span>
+        </button>
+      </form>
+    </div>
+  </dialog>
+
+  <!-- 9. MODAL DE ENCARGO / PEDIDO ESPECIAL -->
+  <dialog id="orderModal">
+    <div class="modal-dialog-content">
+      <div class="modal-header">
+        <h3 id="orderModalTitle">🎂 Nuevo Pedido Especial</h3>
+        <button class="modal-close-btn" data-close-dialog="orderModal">✕</button>
+      </div>
+      <form id="orderForm">
+        <input type="hidden" id="orderEditId">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="orderCustomer">Nombre del Cliente:</label>
+            <input type="text" id="orderCustomer" class="form-control" required placeholder="Ej. Mariana Flores">
+          </div>
+          <div class="form-group">
+            <label for="orderPhone">WhatsApp:</label>
+            <input type="text" id="orderPhone" class="form-control" required placeholder="+51 987 654 321">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="orderTitle">Título del Encargo:</label>
+          <input type="text" id="orderTitle" class="form-control" required placeholder="Ej. Torta Mousse 70% 30 personas">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="orderDate">Fecha de Entrega:</label>
+            <input type="date" id="orderDate" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label for="orderTime">Hora:</label>
+            <input type="time" id="orderTime" class="form-control" value="16:00" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="orderTotal">Precio Total (S/):</label>
+            <input type="number" id="orderTotal" class="form-control" step="1" min="1" required placeholder="0.00">
+          </div>
+          <div class="form-group">
+            <label for="orderDeposit">Adelanto / Seña (S/):</label>
+            <input type="number" id="orderDeposit" class="form-control" step="1" min="0" value="0">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="orderDesc">Especificaciones de Decoración:</label>
+          <textarea id="orderDesc" class="form-control" rows="2" placeholder="Dedicatoria, sabor de bizcocho..."></textarea>
+        </div>
+        <button type="submit" class="btn-checkout"><span>Guardar Encargo</span></button>
+      </form>
+    </div>
+  </dialog>
+
+  <!-- 10. MODAL DE CONFIRMACIÓN DE PEDIDO WEB (CLIENTE) -->
+  <dialog id="clientCartModal">
+    <div class="modal-dialog-content">
+      <div class="modal-header">
+        <h3>🛍️ Confirmar Pedido Web - Amor & Cacao</h3>
+        <button class="modal-close-btn" data-close-dialog="clientCartModal">✕</button>
+      </div>
+
+      <div class="cart-items-list" id="clientModalCartItems" style="max-height: 200px;"></div>
+
+      <form id="clientCheckoutForm" style="margin-top: 0.85rem;">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="clientOrderName">Mi Nombre Completo *:</label>
+            <input type="text" id="clientOrderName" class="form-control" required placeholder="Ej. Camila Villarán">
+          </div>
+          <div class="form-group">
+            <label for="clientOrderPhone">Mi Número de WhatsApp *:</label>
+            <input type="tel" id="clientOrderPhone" class="form-control" required placeholder="Ej. +51 984 555 123">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="clientOrderDate">Fecha Deseada de Entrega *:</label>
+            <input type="date" id="clientOrderDate" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label for="clientOrderPayment">Medio de Pago a Utilizar *:</label>
+            <select id="clientOrderPayment" class="form-control">
+              <option value="Yape / Plin">Yape o Plin (Número: 987 654 321)</option>
+              <option value="Transferencia BCP">Transferencia Bancaria BCP</option>
+              <option value="Pago al Recoger">Efectivo / Tarjeta al recoger en tienda</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="clientOrderAddress">Dirección de Entrega o "Recojo en Tienda":</label>
+          <input type="text" id="clientOrderAddress" class="form-control" placeholder="Ej. Calle Los Pinos 230, Miraflores o Recojo en tienda" required>
+        </div>
+
+        <div class="form-group">
+          <label for="clientOrderNotes">Dedicatoria para regalo o notas especiales:</label>
+          <input type="text" id="clientOrderNotes" class="form-control" placeholder="Ej. Escribir dedicatoria: Feliz Aniversario">
+        </div>
+
+        <div class="summary-row total-row" style="margin: 0.75rem 0;">
+          <span>Total a Pagar:</span>
+          <span id="clientModalTotal" style="color: var(--caramel-primary);">S/ 0.00</span>
+        </div>
+
+        <div style="background: var(--warning-bg); border: 1px solid var(--warning-border); padding: 0.65rem; border-radius: 6px; font-size: 0.78rem; color: var(--warning); margin-bottom: 0.85rem;">
+          ℹ️ Tu pedido se enviará al panel administrativo con estado <strong>Pendiente de Verificación de Pago</strong>. Al confirmar, podrás enviar el comprobante directamente a nuestro WhatsApp para iniciar la preparación.
+        </div>
+
+        <button type="submit" class="btn-checkout" style="background: linear-gradient(135deg, #25d366, #128c7e);">
+          <span>💬 Confirmar y Enviar Pedido a WhatsApp</span>
+        </button>
+      </form>
+    </div>
+  </dialog>
+
+  <!-- 11. MODAL DE EDICIÓN DE ENTREGA (CALENDARIO) -->
+  <dialog id="deliveryEditModal">
+    <div class="modal-dialog-content">
+      <div class="modal-header">
+        <h3>📅 Editar Entrega Programada</h3>
+        <button class="modal-close-btn" data-close-dialog="deliveryEditModal">✕</button>
+      </div>
+      <form id="deliveryEditForm">
+        <input type="hidden" id="editDeliverySource">
+        <input type="hidden" id="editDeliveryId">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="editDeliveryCustomer">Cliente:</label>
+            <input type="text" id="editDeliveryCustomer" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label for="editDeliveryPhone">WhatsApp:</label>
+            <input type="text" id="editDeliveryPhone" class="form-control" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="editDeliveryDate">Fecha Programada:</label>
+            <input type="date" id="editDeliveryDate" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label for="editDeliveryTime">Hora:</label>
+            <input type="time" id="editDeliveryTime" class="form-control" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="editDeliveryNotes">Observaciones / Dirección / Dedicatoria:</label>
+          <textarea id="editDeliveryNotes" class="form-control" rows="2"></textarea>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="editDeliveryTotal">Monto / Costo Total (S/):</label>
+            <input type="number" id="editDeliveryTotal" class="form-control" step="0.5" required>
+          </div>
+          <div class="form-group">
+            <label for="editDeliveryStatus">Estado:</label>
+            <select id="editDeliveryStatus" class="form-control">
+              <option value="pending">⏳ Pendiente</option>
+              <option value="in_prep">🥣 En Preparación</option>
+              <option value="ready">✨ Listo para Entrega</option>
+              <option value="delivered">✅ Entregado</option>
+              <option value="cancelled">❌ Cancelado</option>
+            </select>
+          </div>
+        </div>
+        <button type="submit" class="btn-checkout">
+          <span>Actualizar Entrega</span>
+        </button>
+      </form>
+    </div>
+  </dialog>
+
+  <!-- 12. MODAL DE CANCELACIÓN DE PEDIDO -->
+  <dialog id="cancelOrderModal">
+    <div class="modal-dialog-content">
+      <div class="modal-header">
+        <h3>❌ Cancelar Pedido</h3>
+        <button class="modal-close-btn" data-close-dialog="cancelOrderModal">✕</button>
+      </div>
+      <form id="cancelOrderForm">
+        <input type="hidden" id="cancelOrderId">
+        <p style="font-size: 0.85rem; color: var(--danger); margin-bottom: 0.85rem;">
+          Al cancelar el pedido, se sincronizará automáticamente el estado en la tienda y se reintegrará el stock de los productos.
+        </p>
+        <div class="form-group">
+          <label for="cancelReasonInput">Motivo de Cancelación:</label>
+          <input type="text" id="cancelReasonInput" class="form-control" placeholder="Ej. Cliente desistió de la compra, falta de pago..." required>
+        </div>
+        <button type="submit" class="btn-primary" style="background: var(--danger); width: 100%; justify-content: center; padding: 0.75rem;">
+          <span>Confirmar Cancelación</span>
+        </button>
+      </form>
+    </div>
+  </dialog>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

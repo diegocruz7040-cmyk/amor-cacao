@@ -17,10 +17,12 @@ const MIME_TYPES = {
 
 const server = http.createServer((req, res) => {
   let reqPath = decodeURI(req.url.split('?')[0]);
-  if (reqPath === '/' || reqPath === '' || reqPath === '/tienda') {
-    reqPath = '/tienda.html';
-  } else if (reqPath === '/admin' || reqPath === '/pos') {
+  if (reqPath === '/' || reqPath === '') {
     reqPath = '/index.html';
+  } else if (reqPath === '/admin' || reqPath === '/pos') {
+    reqPath = '/admin.html';
+  } else if (reqPath === '/tienda') {
+    reqPath = '/tienda.html';
   }
 
   let filePath = path.join(__dirname, reqPath);

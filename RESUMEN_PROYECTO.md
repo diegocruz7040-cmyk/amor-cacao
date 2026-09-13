@@ -11,14 +11,14 @@ Este proyecto es una solución integral y desacoplada para **Amor & Cacao**, dis
 
 El sistema opera en dos frentes perfectamente conectados:
 
-1. **🌐 Tienda Web Boutique (Storefront de Cara al Cliente - `tienda.html`)**:
+1. **🌐 Tienda Web Boutique (Storefront de Cara al Cliente - `index.html` / `tienda.html`)**:
    - Experiencia de compra sensorial para clientes en Tacna y Perú.
    - Catálogo de creaciones con notas de cata de autor, porcentajes de cacao y maridajes recomendados.
    - Selector dinámico de presentaciones y cálculo de inversión en tiempo real.
    - Carrito de compras desplegable tipo drawer lateral con checkout directo a doble vía: registro en sistema POS + mensaje oficial formateado a WhatsApp.
-   - **Studio de Diseño Visual In-Place (Estilo Canva / Photoshop)**: Herramienta administrativa para editar el 100% de los textos, fotos de productos y paleta de colores directamente sobre la web.
+   - **Studio de Diseño Visual In-Place (Estilo Canva / Photoshop)**: Herramienta administrativa para editar el 100% de los textos, fotos de productos y paleta de colores directamente sobre la web (`?editor=active`).
 
-2. **🛡️ Plataforma Administrativa POS / ERP (`index.html`)**:
+2. **🛡️ Plataforma Administrativa POS / ERP (`admin.html` / `pos.html`)**:
    - Punto de venta rápido con cálculo de vuelto, boletas y comandas.
    - Módulo exclusivo de **Recepción y Validación de Pedidos Web** en tiempo real.
    - Gestión de stock e inventario con alertas de existencias críticas.
@@ -49,10 +49,12 @@ Tienda_Postres/
 │   ├── store.js                         # Capa de datos central (Repository / Pub-Sub / DAL)
 │   ├── app.js                           # Lógica del POS, pedidos web, caja, calendario y gráficos
 │   └── storefront.js                    # Lógica de la tienda, carrito, checkout y Studio visual
-├── index.html                           # Vista del Panel de Gestión / POS / ERP
-├── tienda.html                          # Vista de la Tienda Web Pública de Autor
+├── index.html                           # Tienda Web Principal (carga por defecto en la raíz /)
+├── tienda.html                          # Vista idéntica de la Tienda Web (alias directo)
+├── admin.html                           # Panel de Gestión POS / ERP para el personal
+├── pos.html                             # Alias directo del Panel de Gestión POS
 ├── server.js                            # Servidor local Node.js para desarrollo y pruebas
-├── vercel.json                          # Reglas de enrutamiento limpio para Vercel
+├── vercel.json                          # Enrutamiento estático ultra-rápido para Vercel
 ├── .gitignore                           # Archivos omitidos en el control de versiones
 └── RESUMEN_PROYECTO.md                  # Este documento de arquitectura y resumen
 ```
@@ -108,8 +110,8 @@ Tienda_Postres/
 3. **Persistencia y Sincronización en la Nube**:
    - **Vercel**: Alojamiento en la red de borde (Edge CDN) para velocidad ultrarrápida (20-40ms) y resistencia a picos de tráfico concurrentes sin saturación.
    - **Vercel Rewrites (`vercel.json`)**:
-     - `https://tu-dominio.com/` → Despacha automáticamente la tienda web (`tienda.html`).
-     - `https://tu-dominio.com/admin` → Despacha el panel administrativo POS (`index.html`).
+     - `https://amor-cacao.vercel.app/` → Despacha automáticamente la tienda web (`index.html`).
+     - `https://amor-cacao.vercel.app/admin` → Despacha el panel administrativo POS (`admin.html`).
    - **Supabase (PostgreSQL + WebSockets)**:
      - Base de datos en la nube con Row Level Security (RLS).
      - Clientes públicos solo pueden ejecutar `INSERT` en pedidos; tienen denegado el `SELECT` sobre otros clientes para garantizar privacidad total (PII).
@@ -125,15 +127,22 @@ Para probar el proyecto en tu computadora:
 # Iniciar servidor local en el puerto 3000
 node server.js
 
-# Rutas disponibles en el navegador:
-# Tienda Web Pública:     http://localhost:3000/tienda.html
+# Rutas disponibles en el navegador local:
+# Tienda Web Pública:     http://localhost:3000/
 # Modo Editor en Vivo:    http://localhost:3000/tienda.html?editor=active
-# Panel POS / ERP Admin:  http://localhost:3000/index.html
+# Panel POS / ERP Admin:  http://localhost:3000/admin
 ```
 
 ---
 
-## 🌐 6. Historial de Despliegue en la Nube
+## 🌐 6. Enlaces Oficiales en Producción (En Vivo)
 
-- **Control de Versiones**: Repositorio oficial en GitHub bajo la cuenta `diegocruz7040-cmyk`.
-- **Despliegue Continuo (CI/CD)**: Conectado a Vercel con despliegues automáticos ante cada `git push`.
+### A. Vercel (Producción Oficial con CI/CD)
+* 🌐 **Tienda Web Boutique**: [https://amor-cacao.vercel.app/](https://amor-cacao.vercel.app/)
+* 🛡️ **Panel Administrativo POS**: [https://amor-cacao.vercel.app/admin](https://amor-cacao.vercel.app/admin) (o `/admin.html` / `/pos.html`)
+* ⚙️ **Dashboard Vercel**: `https://vercel.com/aira-2317/amor-cacao`
+
+### B. GitHub (Repositorio y GitHub Pages Respaldo)
+* 📁 **Repositorio**: [https://github.com/diegocruz7040-cmyk/amor-cacao](https://github.com/diegocruz7040-cmyk/amor-cacao)
+* 🌐 **Tienda Web (GitHub Pages)**: [https://diegocruz7040-cmyk.github.io/amor-cacao/](https://diegocruz7040-cmyk.github.io/amor-cacao/)
+* 🛡️ **Panel POS (GitHub Pages)**: [https://diegocruz7040-cmyk.github.io/amor-cacao/admin.html](https://diegocruz7040-cmyk.github.io/amor-cacao/admin.html)

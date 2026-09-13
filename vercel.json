@@ -1,9 +1,8 @@
 {
   "framework": null,
   "rewrites": [
-    { "source": "/", "destination": "/tienda.html" },
-    { "source": "/tienda", "destination": "/tienda.html" },
     { "source": "/admin", "destination": "/admin.html" },
-    { "source": "/pos", "destination": "/admin.html" }
+    { "source": "/pos", "destination": "/pos.html" },
+    { "source": "/tienda", "destination": "/tienda.html" }
   ]
 }
